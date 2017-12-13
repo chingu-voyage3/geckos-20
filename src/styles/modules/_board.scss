@@ -1,0 +1,27 @@
+.board {
+  display: flex;
+  padding: 2rem;
+
+  &__column {
+    width: 20rem;
+    background: gray;
+    margin: 5px;
+  }
+
+  &__header {
+    display: flex;
+    background: #6278aa;
+    color: aliceblue;
+    padding: 2rem;
+    justify-content: space-between;
+
+    & h1 {
+      margin: 0;
+      cursor: pointer;
+    }
+
+    & p {
+      cursor: pointer;
+    }
+  }
+}

@@ -1,0 +1,18 @@
+.board {
+  display: flex;
+  padding: 2rem; }
+  .board__column {
+    width: 20rem;
+    background: gray;
+    margin: 5px; }
+  .board__header {
+    display: flex;
+    background: #6278aa;
+    color: aliceblue;
+    padding: 2rem;
+    justify-content: space-between; }
+    .board__header h1 {
+      margin: 0;
+      cursor: pointer; }
+    .board__header p {
+      cursor: pointer; }
