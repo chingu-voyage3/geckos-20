@@ -6,6 +6,11 @@
     width: 20rem;
     background: gray;
     margin: 5px;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
   }
 
   &__header {
@@ -15,12 +20,12 @@
     padding: 2rem;
     justify-content: space-between;
 
-    & h1 {
+    &__title {
       margin: 0;
       cursor: pointer;
     }
 
-    & p {
+    &__logout {
       cursor: pointer;
     }
   }

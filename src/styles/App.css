@@ -4,15 +4,27 @@
   .board__column {
     width: 20rem;
     background: gray;
-    margin: 5px; }
+    margin: 5px;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem; }
   .board__header {
     display: flex;
     background: #6278aa;
     color: aliceblue;
     padding: 2rem;
     justify-content: space-between; }
-    .board__header h1 {
+    .board__header__title {
       margin: 0;
       cursor: pointer; }
-    .board__header p {
+    .board__header__logout {
       cursor: pointer; }
+
+.card {
+  width: 85%;
+  display: flex;
+  border: 1px solid black;
+  justify-content: center;
+  align-items: center; }
