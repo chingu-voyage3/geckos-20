@@ -1,4 +1,3 @@
-@charset "UTF-8";
 * {
   box-sizing: border-box; }
 
@@ -81,10 +80,10 @@ ul {
 .card__title:before {
   display: inline-block;
   width: 1em;
-  content: ""; }
+  content: "\27A2\a0"; }
 
 .card__title--is-open:before {
-  content: ""; }
+  content: "\25bc"; }
 
 .checklist__task:first-child {
   margin-top: 10px;
@@ -94,4 +93,4 @@ ul {
 .checklist__task--remove:after {
   display: inline-block;
   color: #d66;
-  content: "x"; }
+  content: "\2717"; }
