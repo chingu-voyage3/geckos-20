@@ -17,26 +17,41 @@
   border: 1px solid #e5e5df;
   border-radius: 3px;
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
+
+  &__title {
+    font-weight: bold;
+    border-bottom: solid 5px transparent;
+  }
+
+  &__title:before {
+    display: inline-block;
+    width: 1em;
+    content: "\25b8";
+  }
+
+  &__title--is-open:before {
+    content: "\25be";
+  }
 }
-.card__title {
-  font-weight: bold;
-  border-bottom: solid 5px transparent;
-}
-.card__title:before {
-  display: inline-block;
-  width: 1em;
-  content: "\27A2\a0";
-}
-.card__title--is-open:before {
-  content: "\25bc";
-}
-.checklist__task:first-child {
-  margin-top: 10px;
-  padding-top: 10px;
-  border-top: dashed 1px #ddd;
-}
-.checklist__task--remove:after {
-  display: inline-block;
-  color: #d66;
-  content: "\2717";
+
+.checklist {
+  &__task:first-child {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: dashed 1px #ddd;
+  }
+
+  &__task--remove:after {
+    display: inline-block;
+    color: #d66;
+    content: "\2717";
+  }
+
+  &--add-task {
+    border: 1px dashed #bbb;
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 3px;
+  }
 }

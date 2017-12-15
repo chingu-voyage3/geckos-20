@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import ColumnCard from './Card';
 
 export default class BoardColumn extends Component {
@@ -7,6 +8,7 @@ export default class BoardColumn extends Component {
       <ColumnCard
         id={card.id}
         title={card.title}
+        color={card.color}
         description={card.description}
         tasks={card.tasks}
         key={card.id}
@@ -20,3 +22,8 @@ export default class BoardColumn extends Component {
     );
   }
 }
+
+BoardColumn.propTypes = {
+  title: PropTypes.string.isRequired,
+  cards: PropTypes.arrayOf(PropTypes.object),
+};
