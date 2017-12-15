@@ -1,0 +1,23 @@
+.board {
+  display: flex;
+  padding: 2rem;
+
+  &__header {
+    display: flex;
+    background: #6278aa;
+    color: aliceblue;
+    padding: 2rem;
+    justify-content: space-between;
+
+    &__title {
+      margin: 0;
+      font-size: 3rem;
+      color: aliceblue;
+      cursor: pointer;
+    }
+
+    &__logout {
+      cursor: pointer;
+    }
+  }
+}
