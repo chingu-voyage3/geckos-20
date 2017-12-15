@@ -2,17 +2,6 @@
   display: flex;
   padding: 2rem;
 
-  &__column {
-    width: 20rem;
-    background: gray;
-    margin: 5px;
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-  }
-
   &__header {
     display: flex;
     background: #6278aa;
@@ -22,6 +11,8 @@
 
     &__title {
       margin: 0;
+      font-size: 3rem;
+      color: aliceblue;
       cursor: pointer;
     }
 

@@ -5,11 +5,21 @@ export default class Board extends Component {
   render() {
     return (
       <div className="board">
-        <BoardColumn />
-        <BoardColumn />
-        <BoardColumn />
-        <BoardColumn />
-        <BoardColumn />
+        <BoardColumn
+          id="todo"
+          title="To Do"
+          cards={this.props.cards.filter(card => card.status === 'todo')}
+        />
+        <BoardColumn
+          id="in-progress"
+          title="In Progress"
+          cards={this.props.cards.filter(card => card.status === 'in-progress')}
+        />
+        <BoardColumn
+          id="done"
+          title="Done"
+          cards={this.props.cards.filter(card => card.status === 'done')}
+        />
       </div>
     );
   }
