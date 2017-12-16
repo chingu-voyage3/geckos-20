@@ -40,6 +40,16 @@ export default class BoardContainer extends React.Component {
     });
   };
 
+  addTask = (cardId, taskName) => {
+    console.log('add Task');
+  };
+  deleteTask = (cardId, taskId, taskIndex) => {
+    console.log('delete task');
+  };
+  toggleTask = (cardId, taskId, taskIndex) => {
+    console.log('toggle task');
+  };
+
   render() {
     console.log(this.state.cards);
     return (
@@ -47,6 +57,11 @@ export default class BoardContainer extends React.Component {
         <button onClick={BoardContainer.dbPush}>Add data</button>
         <Board
           cards={this.state.cards.length > 1 ? this.state.cards : dataModel}
+          taskCallbacks={{
+            toggle: this.toggleTask,
+            delete: this.deleteTask,
+            add: this.addTask,
+          }}
         />
       </div>
     );

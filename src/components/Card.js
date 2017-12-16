@@ -35,7 +35,11 @@ export default class ColumnCard extends Component {
             dangerouslySetInnerHTML={{ __html: marked(this.props.description) }}
           />
           {this.props.tasks && (
-            <CheckList cardId={this.props.id} tasks={this.props.tasks} />
+            <CheckList
+              cardId={this.props.id}
+              tasks={this.props.tasks}
+              taskCallbacks={this.props.taskCallbacks}
+            />
           )}
         </div>
       );
@@ -75,4 +79,9 @@ ColumnCard.propTypes = {
   description: PropTypes.string,
   color: PropTypes.string,
   tasks: PropTypes.arrayOf(PropTypes.object),
+  taskCallbacks: PropTypes.shape({
+    toggle: PropTypes.func.isRequired,
+    delete: PropTypes.func.isRequired,
+    add: PropTypes.func.isRequired,
+  }).isRequired,
 };

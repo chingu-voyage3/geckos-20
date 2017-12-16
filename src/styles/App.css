@@ -90,7 +90,8 @@ ul {
 .checklist__task--remove:after {
   display: inline-block;
   color: #d66;
-  content: "\2717"; }
+  content: "\2717";
+  cursor: pointer; }
 
 .checklist--add-task {
   border: 1px dashed #bbb;
