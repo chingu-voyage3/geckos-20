@@ -1,7 +1,6 @@
 import React from 'react';
-import Board from './Board';
-import cards from '../fixtures/dataModel';
+import BoardContainer from '../containers/BoardContainer';
 
-const Dashboard = () => <Board cards={cards} />;
+const Dashboard = () => <BoardContainer />;
 
 export default Dashboard;
