@@ -23,14 +23,10 @@ export default class BoardContainer extends React.Component {
   };
 
   dbFetch = () => {
-    const cardsRef = database
-      .ref('cards')
-      .orderByKey()
-      .limitToLast(100);
+    const cardsRef = database.ref('cards').orderByKey();
     cardsRef.once('value').then((snapshot) => {
       const cards = [];
       snapshot.forEach((childSnapshot) => {
-        console.log(childSnapshot.val());
         cards.push({
           ...childSnapshot.val(),
           id: childSnapshot.key,
@@ -44,19 +40,24 @@ export default class BoardContainer extends React.Component {
     console.log('add Task');
   };
   deleteTask = (cardId, taskId, taskIndex) => {
-    console.log('delete task');
+    const cardIndex = this.state.cards.findIndex(card => card.id === cardId);
+
+    // Create a new object without the task
+    const cards = { ...this.state.cards };
+    cards[cardIndex].tasks.splice(taskIndex, 1);
+    console.log(cards);
+    this.setState(cards);
   };
   toggleTask = (cardId, taskId, taskIndex) => {
     console.log('toggle task');
   };
 
   render() {
-    console.log(this.state.cards);
     return (
       <div>
         <button onClick={BoardContainer.dbPush}>Add data</button>
         <Board
-          cards={this.state.cards.length > 1 ? this.state.cards : dataModel}
+          cards={this.state.cards}
           taskCallbacks={{
             toggle: this.toggleTask,
             delete: this.deleteTask,

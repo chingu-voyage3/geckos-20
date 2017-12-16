@@ -5,7 +5,11 @@ import ColumnCard from './Card';
 export default class BoardColumn extends Component {
   render() {
     const cards = this.props.cards.map(card => (
-      <ColumnCard {...card} taskCallbacks={this.props.taskCallbacks} />
+      <ColumnCard
+        key={card.id}
+        {...card}
+        taskCallbacks={this.props.taskCallbacks}
+      />
     ));
     return (
       <div className="column">
