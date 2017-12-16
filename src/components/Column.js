@@ -5,14 +5,7 @@ import ColumnCard from './Card';
 export default class BoardColumn extends Component {
   render() {
     const cards = this.props.cards.map(card => (
-      <ColumnCard
-        id={card.id}
-        title={card.title}
-        color={card.color}
-        description={card.description}
-        tasks={card.tasks}
-        key={card.id}
-      />
+      <ColumnCard {...card} taskCallbacks={this.props.taskCallbacks} />
     ));
     return (
       <div className="column">
@@ -26,4 +19,9 @@ export default class BoardColumn extends Component {
 BoardColumn.propTypes = {
   title: PropTypes.string.isRequired,
   cards: PropTypes.arrayOf(PropTypes.object),
+  taskCallbacks: PropTypes.shape({
+    toggle: PropTypes.func.isRequired,
+    delete: PropTypes.func.isRequired,
+    add: PropTypes.func.isRequired,
+  }).isRequired,
 };

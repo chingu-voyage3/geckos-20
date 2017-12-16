@@ -10,16 +10,19 @@ export default class Board extends Component {
         <BoardColumn
           id="todo"
           title="To Do"
+          taskCallbacks={this.props.taskCallbacks}
           cards={this.props.cards.filter(card => card.status === 'todo')}
         />
         <BoardColumn
           id="in-progress"
           title="In Progress"
+          taskCallbacks={this.props.taskCallbacks}
           cards={this.props.cards.filter(card => card.status === 'in-progress')}
         />
         <BoardColumn
           id="done"
           title="Done"
+          taskCallbacks={this.props.taskCallbacks}
           cards={this.props.cards.filter(card => card.status === 'done')}
         />
       </div>
@@ -28,6 +31,11 @@ export default class Board extends Component {
 }
 Board.propTypes = {
   cards: PropTypes.arrayOf(PropTypes.object),
+  taskCallbacks: PropTypes.shape({
+    toggle: PropTypes.func.isRequired,
+    delete: PropTypes.func.isRequired,
+    add: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 Board.defaultProps = {
