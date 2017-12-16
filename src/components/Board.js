@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import dataModel from '../fixtures/dataModel';
 import BoardColumn from './Column';
 
 export default class Board extends Component {
@@ -24,3 +26,10 @@ export default class Board extends Component {
     );
   }
 }
+Board.propTypes = {
+  cards: PropTypes.arrayOf(PropTypes.object),
+};
+
+Board.defaultProps = {
+  cards: dataModel,
+};
