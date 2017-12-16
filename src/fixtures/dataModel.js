@@ -4,7 +4,7 @@ export default [
   {
     id: uuid(),
     title: 'Card one title',
-    color: '#BD8D31',
+    color: '#5D6818',
     description:
       'Card detailed description. more info at [Github](https://github.com/chingu-voyage3/geckos-20)',
     status: 'todo',
@@ -18,7 +18,7 @@ export default [
     id: uuid(),
     title: 'Write some code',
     description: 'Code **code** code _code_ code',
-    color: '#38028',
+    color: '#80D415',
     status: 'todo',
     tasks: [
       { id: uuid(), name: 'Board Example', done: true },
@@ -28,7 +28,7 @@ export default [
   },
   {
     id: uuid(),
-    color: '#3A7E28',
+    color: '#17517A',
     title: 'Card Two title',
     description: 'Card detailed description',
     status: 'in-progress',
@@ -37,6 +37,7 @@ export default [
   {
     id: uuid(),
     title: 'Read the Book',
+    color: '#A26620',
     description: 'I should read the **whole** book',
     status: 'in-progress',
     tasks: [],
@@ -44,6 +45,7 @@ export default [
   {
     id: uuid(),
     title: 'Card Three title',
+    color: '#69AD80',
     description: 'Card detailed description',
     status: 'done',
     tasks: [],
