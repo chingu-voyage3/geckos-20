@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { firebaseApp } from '../firebase/firebase';
+import { Link } from 'react-router-dom';
 
 class Signup extends Component {
   constructor(props) {
@@ -14,13 +14,13 @@ class Signup extends Component {
 
   signUp() {
     const { email, password } = this.state;
-    firebaseApp
+    /* firebaseApp
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .catch((error) => {
         console.log('error ', error);
         this.setState({ error });
-      });
+      }); */
   }
 
   render() {
@@ -48,6 +48,9 @@ class Signup extends Component {
         <button onClick={() => this.signUp()} className="access">
           SIGN UP
         </button>
+        <div>
+          <Link to="/Signin">Sign in instead</Link>
+        </div>
       </div>
     );
   }

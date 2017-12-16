@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class Signin extends Component {
   constructor(props) {
@@ -13,13 +14,13 @@ class Signin extends Component {
 
   signIn() {
     const { email, password } = this.state;
-    firebase
+    /* firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
       .catch((error) => {
         console.log('error ', error);
         this.setState({ error });
-      });
+      }); */
   }
 
   render() {
@@ -47,6 +48,9 @@ class Signin extends Component {
         <button onClick={() => this.signIn()} className="access">
           SIGN IN
         </button>
+        <div>
+          <Link to="/Signup">Create account</Link>
+        </div>
       </div>
     );
   }
