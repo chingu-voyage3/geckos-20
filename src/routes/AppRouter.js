@@ -1,10 +1,17 @@
+/* eslint-disable import/no-named-as-default */
 import React from 'react';
-import { Switch, BrowserRouter as Router, Route } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
+import createHistory from 'history/createBrowserHistory';
+import App from '../App';
+import LoginPage from '../components/LoginPage';
+
+export const history = createHistory();
 
 export default () => (
-  <Router>
+  <Router history={history}>
     <Switch>
-      <Route />
+      <Route exact path="/" component={LoginPage} />
+      <Route path="/dashboard" component={App} />
     </Switch>
   </Router>
 );
