@@ -2,7 +2,7 @@ import uuid from 'uuid/v4';
 
 export default [
   {
-    id: uuid(),
+    id: '1',
     title: 'Card one title',
     color: '#5D6818',
     description:
@@ -15,7 +15,7 @@ export default [
     ],
   },
   {
-    id: uuid(),
+    id: '2',
     title: 'Write some code',
     description: 'Code **code** code _code_ code',
     color: '#80D415',
@@ -27,7 +27,7 @@ export default [
     ],
   },
   {
-    id: uuid(),
+    id: '3',
     color: '#17517A',
     title: 'Card Two title',
     description: 'Card detailed description',
@@ -35,7 +35,7 @@ export default [
     tasks: [],
   },
   {
-    id: uuid(),
+    id: '4',
     title: 'Read the Book',
     color: '#A26620',
     description: 'I should read the **whole** book',
@@ -43,7 +43,7 @@ export default [
     tasks: [],
   },
   {
-    id: uuid(),
+    id: '5',
     title: 'Card Three title',
     color: '#69AD80',
     description: 'Card detailed description',

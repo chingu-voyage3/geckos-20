@@ -34,7 +34,9 @@ export default class ColumnCard extends Component {
           <span
             dangerouslySetInnerHTML={{ __html: marked(this.props.description) }}
           />
-          <CheckList cardId={this.props.id} tasks={this.props.tasks} />
+          {this.props.tasks && (
+            <CheckList cardId={this.props.id} tasks={this.props.tasks} />
+          )}
         </div>
       );
     }
