@@ -5,7 +5,7 @@ import Card from './Card';
 export default class Column extends Component {
   render() {
     const cards =
-      this.props.cards.length > 1
+      this.props.cards.length > 0
         ? this.props.cards.map(card => (
           <Card
             key={card.id}

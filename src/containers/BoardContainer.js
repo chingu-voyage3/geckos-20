@@ -13,7 +13,7 @@ export default class BoardContainer extends React.Component {
         .then(console.log('pushed?'))
         .catch((error) => {
           // Uh-oh, an error occurred!
-          console.log('Error ocurred :(');
+          console.log('Error ocurred :( ', error);
         }), );
   }
   constructor() {
@@ -49,16 +49,19 @@ export default class BoardContainer extends React.Component {
             id: childSnapshot.key,
           });
         });
-        // console.log(cards);
+        console.log(cards);
         this.setState(() => ({ cards }));
       })
       .catch((error) => {
         // Uh-oh, an error occurred!
-        console.log('Error ocurred :(');
+        console.log('Error ocurred :( ', error);
       });
   };
 
   addTask = (cardId, taskName) => {
+    // Keep a reference to the original state prior to the mutations
+    // in case you need to revert the optimistic changes in the UI
+    const prevState = this.state;
     const task = {
       id: uuid(),
       name: taskName,
@@ -68,10 +71,16 @@ export default class BoardContainer extends React.Component {
     return database
       .ref(`cards/${cardId}/tasks/${task.id}`)
       .set(task)
-      .then(() => this.dbFetch());
+      .then(() => this.dbFetch())
+      .catch((error) => {
+        // Uh-oh, an error occurred!
+        console.log('Error ocurred :( ', error);
+        this.setState(prevState);
+      });
   };
 
   deleteTask = (cardId, taskId) => {
+    const prevState = this.state;
     const cardIndex = this.state.cards.findIndex(card => card.id === cardId);
     // Create a new object without the task
     const cards = [...this.state.cards];
@@ -92,19 +101,19 @@ export default class BoardContainer extends React.Component {
       })
       .catch((error) => {
         // Uh-oh, an error occurred!
-        console.log('Error ocurred :(');
+        console.log('Error ocurred :( ', error);
+        this.setState(prevState);
       });
   };
 
   toggleTask = (cardId, taskId, taskStatus) => {
+    const prevState = this.state;
     const cardIndex = this.state.cards.findIndex(card => card.id === cardId);
     // Create a new object without the task
     const cards = [...this.state.cards];
     const task = cards[cardIndex].tasks.find(task => task.id === taskId);
     task.done = !taskStatus;
-
     this.setState(cards);
-
     // mirror changes to firebase
     database
       .ref(`cards/${cardId}/tasks/${taskId}`)
@@ -117,7 +126,8 @@ export default class BoardContainer extends React.Component {
       })
       .catch((error) => {
         // Uh-oh, an error occurred!
-        console.log('Error ocurred :(');
+        console.log('Error ocurred :( ', error);
+        this.setState(prevState);
       });
   };
 
