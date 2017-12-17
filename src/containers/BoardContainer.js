@@ -1,6 +1,5 @@
 import React from 'react';
 import uuid from 'uuid/v4';
-import moment from 'moment';
 import Board from '../components/Board';
 import dataModel from '../fixtures/dataModel';
 import database from '../firebase/firebase';
@@ -29,11 +28,22 @@ export default class BoardContainer extends React.Component {
     cardsRef.once('value').then((snapshot) => {
       const cards = [];
       snapshot.forEach((childSnapshot) => {
+        // console.log(childSnapshot.val());
+        let taskArr;
+        if (childSnapshot.val().tasks) {
+          // Take Object of tasks and spread it to array for each card so it can be mapped and filtered
+          taskArr = Object.keys(childSnapshot.val().tasks).map(key => ({
+            ...childSnapshot.val().tasks[key],
+          }));
+        }
+        // console.log(taskArr);
         cards.push({
           ...childSnapshot.val(),
+          tasks: taskArr,
           id: childSnapshot.key,
         });
       });
+      console.log(cards);
       this.setState(() => ({ cards }));
     });
   };
@@ -51,25 +61,24 @@ export default class BoardContainer extends React.Component {
       .then(() => this.dbFetch());
   };
 
-  deleteTask = (cardId, taskId, taskIndex) => {
+  deleteTask = (cardId, taskId) => {
     const cardIndex = this.state.cards.findIndex(card => card.id === cardId);
     // Create a new object without the task
     const cards = { ...this.state.cards };
-    cards[cardIndex].tasks.splice(taskIndex, 1);
-    console.log(taskIndex);
+    cards[cardIndex].tasks.filter(task => task !== taskId);
     this.setState(cards);
 
-    database
-      .ref(`cards/${cardId}/tasks/${taskId}`)
-      .remove()
-      .then(() => {
-        // File deleted successfully
-        console.log('task removed');
-      })
-      .catch((error) => {
-        // Uh-oh, an error occurred!
-        console.log('Error ocurred :(');
-      });
+    // database
+    //   .ref(`cards/${cardId}/tasks/${taskId}`)
+    //   .remove()
+    //   .then(() => {
+    //     // File deleted successfully
+    //     console.log('task removed');
+    //   })
+    //   .catch((error) => {
+    //     // Uh-oh, an error occurred!
+    //     console.log('Error ocurred :(');
+    //   });
   };
 
   toggleTask = (cardId, taskId, taskIndex) => {
@@ -77,6 +86,7 @@ export default class BoardContainer extends React.Component {
   };
 
   render() {
+    console.log(this.state);
     return (
       <div>
         <button onClick={BoardContainer.dbPush}>Add data</button>

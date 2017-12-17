@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 export default class CheckList extends Component {
@@ -10,12 +11,16 @@ export default class CheckList extends Component {
     }
   };
   render() {
-    console.log();
     let tasks;
     if (this.props.tasks) {
+      console.log(this.props.tasks);
       const tasksArr = Object.values(this.props.tasks);
       tasks = tasksArr.map((task, taskIndex) => (
-        <li className="checklist__task" key={task.id}>
+        <li
+          className="checklist__task"
+          key={task.id}
+          title={moment(task.createdAt).format('MMM Do, Y')}
+        >
           <input
             type="checkbox"
             defaultChecked={task.done}
@@ -50,7 +55,6 @@ export default class CheckList extends Component {
         </li>
       ));
     }
-    console.log(tasks);
     return (
       <div className="checklist">
         {this.props.tasks && <ul>{tasks}</ul>}
@@ -67,7 +71,7 @@ export default class CheckList extends Component {
 
 CheckList.propTypes = {
   cardId: PropTypes.string.isRequired,
-  tasks: PropTypes.object,
+  tasks: PropTypes.arrayOf(PropTypes.object),
   taskCallbacks: PropTypes.shape({
     toggle: PropTypes.func.isRequired,
     delete: PropTypes.func.isRequired,
