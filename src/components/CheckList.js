@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 export default class CheckList extends Component {
@@ -10,45 +11,45 @@ export default class CheckList extends Component {
     }
   };
   render() {
-    console.log(this.props);
-    const tasks = this.props.tasks.map((task, taskIndex) => (
-      <li className="checklist__task" key={task.id}>
-        <input
-          type="checkbox"
-          defaultChecked={task.done}
-          onChange={() =>
-            this.props.taskCallbacks.toggle(
-              this.props.cardId,
-              task.id,
-              taskIndex,
-            )
-          }
-        />
-        {task.name}
-        <a
-          className="checklist__task--remove"
-          onClick={() =>
-            this.props.taskCallbacks.delete(
-              this.props.cardId,
-              task.id,
-              taskIndex,
-            )
-          }
-          onKeyDown={() =>
-            this.props.taskCallbacks.delete(
-              this.props.cardId,
-              task.id,
-              taskIndex,
-            )
-          }
+    let tasks;
+    if (this.props.tasks) {
+      // console.log(this.props.tasks);
+      const tasksArr = Object.values(this.props.tasks);
+      tasks = tasksArr.map(task => (
+        <li
+          className="checklist__task"
+          key={task.id}
+          title={moment(task.createdAt).format('MMM Do, Y')}
         >
-          &nbsp;
-        </a>
-      </li>
-    ));
+          <input
+            type="checkbox"
+            defaultChecked={task.done}
+            onChange={() =>
+              this.props.taskCallbacks.toggle(
+                this.props.cardId,
+                task.id,
+                task.done,
+              )
+            }
+          />
+          {task.name}
+          <a
+            className="checklist__task--remove"
+            onClick={() =>
+              this.props.taskCallbacks.delete(this.props.cardId, task.id)
+            }
+            onKeyDown={() =>
+              this.props.taskCallbacks.delete(this.props.cardId, task.id)
+            }
+          >
+            &nbsp;
+          </a>
+        </li>
+      ));
+    }
     return (
       <div className="checklist">
-        <ul>{tasks}</ul>
+        {this.props.tasks && <ul>{tasks}</ul>}
         <input
           type="text"
           className="checklist--add-task"

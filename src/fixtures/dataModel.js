@@ -1,4 +1,4 @@
-import uuid from 'uuid/v4';
+// import uuid from 'uuid/v4';
 
 export default [
   {
@@ -8,11 +8,7 @@ export default [
     description:
       'Card detailed description. more info at [Github](https://github.com/chingu-voyage3/geckos-20)',
     status: 'todo',
-    tasks: [
-      { id: uuid(), name: 'Task one', done: true },
-      { id: uuid(), name: 'Task two', done: false },
-      { id: uuid(), name: 'Task three', done: false },
-    ],
+    tasks: [],
   },
   {
     id: '2',
@@ -20,11 +16,7 @@ export default [
     description: 'Code **code** code _code_ code',
     color: '#80D415',
     status: 'todo',
-    tasks: [
-      { id: uuid(), name: 'Board Example', done: true },
-      { id: uuid(), name: 'Column Example', done: false },
-      { id: uuid(), name: 'Some experiments', done: false },
-    ],
+    tasks: [],
   },
   {
     id: '3',
