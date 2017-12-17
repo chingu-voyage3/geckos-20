@@ -12,7 +12,7 @@ const titlePropType = (props, propName, componentName) => {
   }
 };
 
-export default class ColumnCard extends Component {
+export default class Card extends Component {
   constructor() {
     super();
     this.state = {
@@ -34,13 +34,12 @@ export default class ColumnCard extends Component {
           <span
             dangerouslySetInnerHTML={{ __html: marked(this.props.description) }}
           />
-          {this.props.tasks && (
-            <CheckList
-              cardId={this.props.id}
-              tasks={this.props.tasks}
-              taskCallbacks={this.props.taskCallbacks}
-            />
-          )}
+
+          <CheckList
+            cardId={this.props.id}
+            tasks={this.props.tasks}
+            taskCallbacks={this.props.taskCallbacks}
+          />
         </div>
       );
     }
@@ -73,12 +72,11 @@ export default class ColumnCard extends Component {
   }
 }
 
-ColumnCard.propTypes = {
+Card.propTypes = {
   id: PropTypes.string.isRequired,
   title: titlePropType,
   description: PropTypes.string,
   color: PropTypes.string,
-  tasks: PropTypes.arrayOf(PropTypes.object),
   taskCallbacks: PropTypes.shape({
     toggle: PropTypes.func.isRequired,
     delete: PropTypes.func.isRequired,

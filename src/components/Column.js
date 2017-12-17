@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import ColumnCard from './Card';
+import Card from './Card';
 
-export default class BoardColumn extends Component {
+export default class Column extends Component {
   render() {
-    const cards = this.props.cards.map(card => (
-      <ColumnCard
-        key={card.id}
-        {...card}
-        taskCallbacks={this.props.taskCallbacks}
-      />
-    ));
+    const cards =
+      this.props.cards.length > 1
+        ? this.props.cards.map(card => (
+          <Card
+            key={card.id}
+            {...card}
+            taskCallbacks={this.props.taskCallbacks}
+          />
+        ))
+        : null;
     return (
       <div className="column">
         <h1>{this.props.title}</h1>
@@ -20,7 +23,7 @@ export default class BoardColumn extends Component {
   }
 }
 
-BoardColumn.propTypes = {
+Column.propTypes = {
   title: PropTypes.string.isRequired,
   cards: PropTypes.arrayOf(PropTypes.object),
   taskCallbacks: PropTypes.shape({

@@ -10,45 +10,50 @@ export default class CheckList extends Component {
     }
   };
   render() {
-    console.log(this.props);
-    const tasks = this.props.tasks.map((task, taskIndex) => (
-      <li className="checklist__task" key={task.id}>
-        <input
-          type="checkbox"
-          defaultChecked={task.done}
-          onChange={() =>
-            this.props.taskCallbacks.toggle(
-              this.props.cardId,
-              task.id,
-              taskIndex,
-            )
-          }
-        />
-        {task.name}
-        <a
-          className="checklist__task--remove"
-          onClick={() =>
-            this.props.taskCallbacks.delete(
-              this.props.cardId,
-              task.id,
-              taskIndex,
-            )
-          }
-          onKeyDown={() =>
-            this.props.taskCallbacks.delete(
-              this.props.cardId,
-              task.id,
-              taskIndex,
-            )
-          }
-        >
-          &nbsp;
-        </a>
-      </li>
-    ));
+    console.log();
+    let tasks;
+    if (this.props.tasks) {
+      const tasksArr = Object.values(this.props.tasks);
+      tasks = tasksArr.map((task, taskIndex) => (
+        <li className="checklist__task" key={task.id}>
+          <input
+            type="checkbox"
+            defaultChecked={task.done}
+            onChange={() =>
+              this.props.taskCallbacks.toggle(
+                this.props.cardId,
+                task.id,
+                taskIndex,
+              )
+            }
+          />
+          {task.name}
+          <a
+            className="checklist__task--remove"
+            onClick={() =>
+              this.props.taskCallbacks.delete(
+                this.props.cardId,
+                task.id,
+                taskIndex,
+              )
+            }
+            onKeyDown={() =>
+              this.props.taskCallbacks.delete(
+                this.props.cardId,
+                task.id,
+                taskIndex,
+              )
+            }
+          >
+            &nbsp;
+          </a>
+        </li>
+      ));
+    }
+    console.log(tasks);
     return (
       <div className="checklist">
-        <ul>{tasks}</ul>
+        {this.props.tasks && <ul>{tasks}</ul>}
         <input
           type="text"
           className="checklist--add-task"
@@ -62,7 +67,7 @@ export default class CheckList extends Component {
 
 CheckList.propTypes = {
   cardId: PropTypes.string.isRequired,
-  tasks: PropTypes.arrayOf(PropTypes.object),
+  tasks: PropTypes.object,
   taskCallbacks: PropTypes.shape({
     toggle: PropTypes.func.isRequired,
     delete: PropTypes.func.isRequired,

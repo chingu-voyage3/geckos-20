@@ -1,4 +1,6 @@
 import React from 'react';
+import uuid from 'uuid/v4';
+import moment from 'moment';
 import Board from '../components/Board';
 import dataModel from '../fixtures/dataModel';
 import database from '../firebase/firebase';
@@ -23,7 +25,7 @@ export default class BoardContainer extends React.Component {
   };
 
   dbFetch = () => {
-    const cardsRef = database.ref('cards').orderByKey();
+    const cardsRef = database.ref('cards');
     cardsRef.once('value').then((snapshot) => {
       const cards = [];
       snapshot.forEach((childSnapshot) => {
@@ -37,17 +39,39 @@ export default class BoardContainer extends React.Component {
   };
 
   addTask = (cardId, taskName) => {
-    console.log('add Task');
+    const task = {
+      id: uuid(),
+      name: taskName,
+      done: false,
+      createdAt: Date.now(),
+    };
+    return database
+      .ref(`cards/${cardId}/tasks/${task.id}`)
+      .set(task)
+      .then(() => this.dbFetch());
   };
+
   deleteTask = (cardId, taskId, taskIndex) => {
     const cardIndex = this.state.cards.findIndex(card => card.id === cardId);
-
     // Create a new object without the task
     const cards = { ...this.state.cards };
     cards[cardIndex].tasks.splice(taskIndex, 1);
-    console.log(cards);
+    console.log(taskIndex);
     this.setState(cards);
+
+    database
+      .ref(`cards/${cardId}/tasks/${taskId}`)
+      .remove()
+      .then(() => {
+        // File deleted successfully
+        console.log('task removed');
+      })
+      .catch((error) => {
+        // Uh-oh, an error occurred!
+        console.log('Error ocurred :(');
+      });
   };
+
   toggleTask = (cardId, taskId, taskIndex) => {
     console.log('toggle task');
   };

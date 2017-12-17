@@ -1,25 +1,25 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import dataModel from '../fixtures/dataModel';
-import BoardColumn from './Column';
+import Column from './Column';
 
 export default class Board extends Component {
   render() {
     return (
       <div className="board">
-        <BoardColumn
+        <Column
           id="todo"
           title="To Do"
           taskCallbacks={this.props.taskCallbacks}
           cards={this.props.cards.filter(card => card.status === 'todo')}
         />
-        <BoardColumn
+        <Column
           id="in-progress"
           title="In Progress"
           taskCallbacks={this.props.taskCallbacks}
           cards={this.props.cards.filter(card => card.status === 'in-progress')}
         />
-        <BoardColumn
+        <Column
           id="done"
           title="Done"
           taskCallbacks={this.props.taskCallbacks}
