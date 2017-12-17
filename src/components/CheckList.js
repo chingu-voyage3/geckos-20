@@ -15,7 +15,7 @@ export default class CheckList extends Component {
     if (this.props.tasks) {
       // console.log(this.props.tasks);
       const tasksArr = Object.values(this.props.tasks);
-      tasks = tasksArr.map((task, taskIndex) => (
+      tasks = tasksArr.map(task => (
         <li
           className="checklist__task"
           key={task.id}
@@ -28,7 +28,7 @@ export default class CheckList extends Component {
               this.props.taskCallbacks.toggle(
                 this.props.cardId,
                 task.id,
-                taskIndex,
+                task.done,
               )
             }
           />
@@ -36,18 +36,10 @@ export default class CheckList extends Component {
           <a
             className="checklist__task--remove"
             onClick={() =>
-              this.props.taskCallbacks.delete(
-                this.props.cardId,
-                task.id,
-                taskIndex,
-              )
+              this.props.taskCallbacks.delete(this.props.cardId, task.id)
             }
             onKeyDown={() =>
-              this.props.taskCallbacks.delete(
-                this.props.cardId,
-                task.id,
-                taskIndex,
-              )
+              this.props.taskCallbacks.delete(this.props.cardId, task.id)
             }
           >
             &nbsp;

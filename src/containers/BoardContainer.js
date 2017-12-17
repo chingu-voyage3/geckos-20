@@ -10,7 +10,11 @@ export default class BoardContainer extends React.Component {
       database
         .ref('cards')
         .push(data)
-        .then(console.log('pushed?')), );
+        .then(console.log('pushed?'))
+        .catch((error) => {
+          // Uh-oh, an error occurred!
+          console.log('Error ocurred :(');
+        }), );
   }
   constructor() {
     super();
@@ -47,6 +51,10 @@ export default class BoardContainer extends React.Component {
         });
         // console.log(cards);
         this.setState(() => ({ cards }));
+      })
+      .catch((error) => {
+        // Uh-oh, an error occurred!
+        console.log('Error ocurred :(');
       });
   };
 
@@ -69,10 +77,12 @@ export default class BoardContainer extends React.Component {
     const cards = [...this.state.cards];
     // Return new array with all values that passed filter test for task.id value
     const newTasks = cards[cardIndex].tasks.filter(task => task.id !== taskId);
+    // append modified tasks arr to card
     cards[cardIndex].tasks = newTasks;
 
     this.setState(cards);
 
+    // mirror changes to firebase
     database
       .ref(`cards/${cardId}/tasks/${taskId}`)
       .remove()
@@ -86,8 +96,29 @@ export default class BoardContainer extends React.Component {
       });
   };
 
-  toggleTask = (cardId, taskId, taskIndex) => {
-    console.log('toggle task');
+  toggleTask = (cardId, taskId, taskStatus) => {
+    const cardIndex = this.state.cards.findIndex(card => card.id === cardId);
+    // Create a new object without the task
+    const cards = [...this.state.cards];
+    const task = cards[cardIndex].tasks.find(task => task.id === taskId);
+    task.done = !taskStatus;
+
+    this.setState(cards);
+
+    // mirror changes to firebase
+    database
+      .ref(`cards/${cardId}/tasks/${taskId}`)
+      .update({
+        done: task.done,
+      })
+      .then(() => {
+        // File updated successfully
+        console.log('task status updated');
+      })
+      .catch((error) => {
+        // Uh-oh, an error occurred!
+        console.log('Error ocurred :(');
+      });
   };
 
   render() {
