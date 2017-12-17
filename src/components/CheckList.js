@@ -13,7 +13,7 @@ export default class CheckList extends Component {
   render() {
     let tasks;
     if (this.props.tasks) {
-      console.log(this.props.tasks);
+      // console.log(this.props.tasks);
       const tasksArr = Object.values(this.props.tasks);
       tasks = tasksArr.map((task, taskIndex) => (
         <li
