@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import marked from 'marked';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { DragSource, DropTarget } from 'react-dnd';
+import { Link } from 'react-router-dom';
 import CheckList from './CheckList';
 import constants from '../constants';
 
@@ -86,6 +87,11 @@ export class Card extends Component {
     };
     return connectDropTarget(connectDragSource(<div className="card">
       <div style={sideColor} />
+      <div className="card__edit">
+        <Link to={`/dashboard/edit/${this.props.id}`} key={this.props.id}>
+              &#9998;
+        </Link>
+      </div>
       <div
         className={
           this.state.showDetails

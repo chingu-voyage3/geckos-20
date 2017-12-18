@@ -1,8 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Header = () => (
   <div className="board__header">
-    <h1 className="board__header__title">Trello</h1>
+    <Link to="/dashboard" className="board__header__title">
+      Trello
+    </Link>
     <p className="board__header__logout">Log Out</p>
   </div>
 );
