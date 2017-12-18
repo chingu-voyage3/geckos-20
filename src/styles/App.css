@@ -206,7 +206,8 @@ textarea {
   line-height: 50px;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
   outline: none;
-  border: none; }
+  border: none;
+  cursor: pointer; }
 
 .button {
   border-radius: 0.5rem;
