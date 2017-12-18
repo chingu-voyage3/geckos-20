@@ -11,6 +11,7 @@ export default class Column extends Component {
             key={card.id}
             {...card}
             taskCallbacks={this.props.taskCallbacks}
+            cardCallbacks={this.props.cardCallbacks}
           />
         ))
         : null;
@@ -26,6 +27,10 @@ export default class Column extends Component {
 Column.propTypes = {
   title: PropTypes.string.isRequired,
   cards: PropTypes.arrayOf(PropTypes.object),
+  cardCallbacks: PropTypes.shape({
+    updateStatus: PropTypes.func.isRequired,
+    updatePosition: PropTypes.func.isRequired,
+  }).isRequired,
   taskCallbacks: PropTypes.shape({
     toggle: PropTypes.func.isRequired,
     delete: PropTypes.func.isRequired,

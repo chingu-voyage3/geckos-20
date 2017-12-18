@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import marked from 'marked';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import CheckList from './CheckList';
 
 const titlePropType = (props, propName, componentName) => {
@@ -30,17 +31,21 @@ export default class Card extends Component {
     let cardDetails;
     if (this.state.showDetails) {
       cardDetails = (
-        <div className="card__details">
-          <span
-            dangerouslySetInnerHTML={{ __html: marked(this.props.description) }}
-          />
+        <CSSTransition key={this.props.id} classNames="toggle" timeout={250}>
+          <div className="card__details">
+            <span
+              dangerouslySetInnerHTML={{
+                __html: marked(this.props.description),
+              }}
+            />
 
-          <CheckList
-            cardId={this.props.id}
-            tasks={this.props.tasks}
-            taskCallbacks={this.props.taskCallbacks}
-          />
-        </div>
+            <CheckList
+              cardId={this.props.id}
+              tasks={this.props.tasks}
+              taskCallbacks={this.props.taskCallbacks}
+            />
+          </div>
+        </CSSTransition>
       );
     }
     const sideColor = {
@@ -66,7 +71,7 @@ export default class Card extends Component {
         >
           {this.props.title}
         </div>
-        {cardDetails}
+        <TransitionGroup>{cardDetails}</TransitionGroup>
       </div>
     );
   }
@@ -81,5 +86,9 @@ Card.propTypes = {
     toggle: PropTypes.func.isRequired,
     delete: PropTypes.func.isRequired,
     add: PropTypes.func.isRequired,
+  }).isRequired,
+  cardCallbacks: PropTypes.shape({
+    updateStatus: PropTypes.func.isRequired,
+    updatePosition: PropTypes.func.isRequired,
   }).isRequired,
 };
