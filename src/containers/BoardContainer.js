@@ -1,8 +1,10 @@
 import React from 'react';
 import uuid from 'uuid/v4';
+import update from 'immutability-helper';
 import Board from '../components/Board';
 import dataModel from '../fixtures/dataModel';
 import database from '../firebase/firebase';
+import { throttle } from '../helpers';
 
 export default class BoardContainer extends React.Component {
   static dbPush() {
@@ -13,8 +15,8 @@ export default class BoardContainer extends React.Component {
         .then(console.log('pushed?'))
         .catch((error) => {
           // Uh-oh, an error occurred!
-          console.log('Error ocurred :(');
-        }), );
+          console.warn('Error ocurred :( ', error);
+        }),);
   }
   constructor() {
     super();
@@ -49,16 +51,19 @@ export default class BoardContainer extends React.Component {
             id: childSnapshot.key,
           });
         });
-        // console.log(cards);
+        console.log(cards);
         this.setState(() => ({ cards }));
       })
       .catch((error) => {
         // Uh-oh, an error occurred!
-        console.log('Error ocurred :(');
+        console.warn('Error ocurred :( ', error);
       });
   };
 
   addTask = (cardId, taskName) => {
+    // Keep a reference to the original state prior to the mutations
+    // in case you need to revert the optimistic changes in the UI
+    const prevState = this.state;
     const task = {
       id: uuid(),
       name: taskName,
@@ -68,10 +73,16 @@ export default class BoardContainer extends React.Component {
     return database
       .ref(`cards/${cardId}/tasks/${task.id}`)
       .set(task)
-      .then(() => this.dbFetch());
+      .then(() => this.dbFetch())
+      .catch((error) => {
+        // Uh-oh, an error occurred!
+        console.warn('Error ocurred :( ', error);
+        this.setState(prevState);
+      });
   };
 
   deleteTask = (cardId, taskId) => {
+    const prevState = this.state;
     const cardIndex = this.state.cards.findIndex(card => card.id === cardId);
     // Create a new object without the task
     const cards = [...this.state.cards];
@@ -92,19 +103,19 @@ export default class BoardContainer extends React.Component {
       })
       .catch((error) => {
         // Uh-oh, an error occurred!
-        console.log('Error ocurred :(');
+        console.warn('Error ocurred :( ', error);
+        this.setState(prevState);
       });
   };
 
   toggleTask = (cardId, taskId, taskStatus) => {
+    const prevState = this.state;
     const cardIndex = this.state.cards.findIndex(card => card.id === cardId);
     // Create a new object without the task
     const cards = [...this.state.cards];
     const task = cards[cardIndex].tasks.find(task => task.id === taskId);
     task.done = !taskStatus;
-
     this.setState(cards);
-
     // mirror changes to firebase
     database
       .ref(`cards/${cardId}/tasks/${taskId}`)
@@ -117,9 +128,75 @@ export default class BoardContainer extends React.Component {
       })
       .catch((error) => {
         // Uh-oh, an error occurred!
-        console.log('Error ocurred :(');
+        console.warn('Error ocurred :( ', error);
+        this.setState(prevState);
       });
   };
+
+  updateCardStatus = throttle((cardId, listId) => {
+    // Find the index of the card
+    const cardIndex = this.state.cards.findIndex(card => card.id === cardId);
+    // Get the current card
+    const card = this.state.cards[cardIndex];
+    // Only proceed if hovering over a different list
+    if (card.status !== listId) {
+      // set the component state to the mutated object
+      this.setState(update(this.state, {
+        cards: {
+          [cardIndex]: {
+            status: { $set: listId },
+          },
+        },
+      }),);
+    }
+  });
+
+  updateCardPosition = throttle((cardId, afterId) => {
+    // Only proceed if hovering over a different card
+    if (cardId !== afterId) {
+    // Find the index of the card
+      const cardIndex = this.state.cards.findIndex(card => card.id === cardId);
+      // Get the current card
+      const card = this.state.cards[cardIndex];
+      // Find the index of the card the user is hovering over
+      const afterIndex = this.state.cards.findIndex(card => card.id === afterId);
+      // Use splice to remove the card and reinsert it a the new index
+      this.setState(update(this.state, {
+        cards: {
+          $splice: [
+            [cardIndex, 1],
+            [afterIndex, 0, card]
+          ]
+        }
+      }));
+    }
+  }, 500);
+
+  persistCardDrag = (cardId, status) => {
+    // Find the index of the card
+    const cardIndex = this.state.cards.findIndex(card => card.id === cardId);
+    const card = this.state.cards[cardIndex]
+    console.log(status);
+    database
+      .ref(`cards/${cardId}/`)
+      .update({
+        status: card.status
+      })
+      .then(() => {
+        // File updated successfully
+        console.log('card status updated');
+      })
+      .catch((error) => {
+        console.error('DB error:', error);
+        this.setState(update(this.state, {
+          cards: {
+            [cardIndex]: {
+              status: { $set: status }
+            }
+          }
+        }));
+      });
+  }
 
   render() {
     // console.log(this.state);
@@ -132,6 +209,11 @@ export default class BoardContainer extends React.Component {
             toggle: this.toggleTask,
             delete: this.deleteTask,
             add: this.addTask,
+          }}
+          cardCallbacks={{
+            updateStatus: this.updateCardStatus,
+            updatePosition: this.updateCardPosition,
+            persistCardDrag: this.persistCardDrag
           }}
         />
       </div>

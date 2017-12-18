@@ -56,3 +56,22 @@
     border-radius: 3px;
   }
 }
+
+.toggle-enter {
+  max-height: 0;
+  overflow: hidden;
+}
+.toggle-enter.toggle-enter-active {
+  max-height: 300px;
+  overflow: hidden;
+  transition: max-height 0.25s ease-in;
+}
+.toggle-exit {
+  max-height: 300px;
+  overflow: hidden;
+}
+.toggle-exit.toggle-exit-active {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.25s ease-out;
+}
