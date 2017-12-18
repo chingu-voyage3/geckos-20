@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import marked from 'marked';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import { DragSource } from 'react-dnd';
+import { DragSource, DropTarget } from 'react-dnd';
 import CheckList from './CheckList';
 import constants from '../constants';
 
@@ -10,9 +10,22 @@ const cardDragSpec = {
   beginDrag(props) {
     return {
       id: props.id,
+      status: props.status,
     };
   },
+  endDrag(props) {
+    props.cardCallbacks.persistCardDrag(props.id, props.status);
+  },
 };
+const cardDropSpec = {
+  hover(props, monitor) {
+    const draggedId = monitor.getItem().id;
+    props.cardCallbacks.updatePosition(draggedId, props.id);
+  },
+};
+const collectDrop = (connect, monitor) => ({
+  connectDropTarget: connect.dropTarget(),
+});
 const collectDrag = (connect, monitor) => ({
   connectDragSource: connect.dragSource(),
 });
@@ -41,6 +54,7 @@ export class Card extends Component {
   render() {
     const {
       connectDragSource,
+      connectDropTarget,
     } = this.props; /* eslint-disable react/no-danger */ // Var and conditional for toggling description of the card on and off
     /* eslint-disable jsx-a11y/no-static-element-interactions  */ let cardDetails;
     if (this.state.showDetails) {
@@ -70,7 +84,7 @@ export class Card extends Component {
       width: 7,
       backgroundColor: this.props.color,
     };
-    return connectDragSource(<div className="card">
+    return connectDropTarget(connectDragSource(<div className="card">
       <div style={sideColor} />
       <div
         className={
@@ -84,7 +98,7 @@ export class Card extends Component {
         {this.props.title}
       </div>
       <TransitionGroup>{cardDetails}</TransitionGroup>
-    </div>, );
+    </div>, ), );
   }
 }
 
@@ -94,6 +108,7 @@ Card.propTypes = {
   description: PropTypes.string,
   color: PropTypes.string,
   connectDragSource: PropTypes.func.isRequired,
+  connectDropTarget: PropTypes.func.isRequired,
   taskCallbacks: PropTypes.shape({
     toggle: PropTypes.func.isRequired,
     delete: PropTypes.func.isRequired,
@@ -105,4 +120,11 @@ Card.propTypes = {
   }).isRequired,
 };
 
-export default DragSource(constants.CARD, cardDragSpec, collectDrag)(Card);
+const dragHighOrderCard = DragSource(constants.CARD, cardDragSpec, collectDrag)(Card, );
+const dragDropHighOrderCard = DropTarget(
+  constants.CARD,
+  cardDropSpec,
+  collectDrop,
+)(dragHighOrderCard);
+
+export default dragDropHighOrderCard;

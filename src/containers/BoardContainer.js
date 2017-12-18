@@ -1,9 +1,10 @@
 import React from 'react';
 import uuid from 'uuid/v4';
+import update from 'immutability-helper';
 import Board from '../components/Board';
 import dataModel from '../fixtures/dataModel';
 import database from '../firebase/firebase';
-import update from 'immutability-helper';
+import { throttle } from '../helpers';
 
 export default class BoardContainer extends React.Component {
   static dbPush() {
@@ -132,7 +133,7 @@ export default class BoardContainer extends React.Component {
       });
   };
 
-  updateCardStatus = (cardId, listId) => {
+  updateCardStatus = throttle((cardId, listId) => {
     // Find the index of the card
     const cardIndex = this.state.cards.findIndex(card => card.id === cardId);
     // Get the current card
@@ -148,9 +149,9 @@ export default class BoardContainer extends React.Component {
         },
       }),);
     }
-  };
+  });
 
-  updateCardPosition = (cardId, afterId) => {
+  updateCardPosition = throttle((cardId, afterId) => {
     // Only proceed if hovering over a different card
     if (cardId !== afterId) {
     // Find the index of the card
@@ -169,7 +170,34 @@ export default class BoardContainer extends React.Component {
         }
       }));
     }
+  }, 500);
+
+  persistCardDrag = (cardId, status) => {
+    // Find the index of the card
+    const cardIndex = this.state.cards.findIndex(card => card.id === cardId);
+    const card = this.state.cards[cardIndex]
+    console.log(status);
+    database
+      .ref(`cards/${cardId}/`)
+      .update({
+        status: card.status
+      })
+      .then(() => {
+        // File updated successfully
+        console.log('card status updated');
+      })
+      .catch((error) => {
+        console.error('DB error:', error);
+        this.setState(update(this.state, {
+          cards: {
+            [cardIndex]: {
+              status: { $set: status }
+            }
+          }
+        }));
+      });
   }
+
   render() {
     // console.log(this.state);
     return (
@@ -185,6 +213,7 @@ export default class BoardContainer extends React.Component {
           cardCallbacks={{
             updateStatus: this.updateCardStatus,
             updatePosition: this.updateCardPosition,
+            persistCardDrag: this.persistCardDrag
           }}
         />
       </div>
