@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 import dataModel from '../fixtures/dataModel';
 import Column from './Column';
 
-export default class Board extends Component {
+export class Board extends Component {
   render() {
     return (
       <div className="board">
@@ -48,3 +50,5 @@ Board.propTypes = {
 Board.defaultProps = {
   cards: dataModel,
 };
+
+export default DragDropContext(HTML5Backend)(Board);
