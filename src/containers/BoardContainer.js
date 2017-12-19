@@ -1,3 +1,4 @@
+/* eslint-disable import/no-named-as-default */
 import React from 'react';
 import uuid from 'uuid/v4';
 import update from 'immutability-helper';
@@ -16,12 +17,13 @@ export default class BoardContainer extends React.Component {
         .catch((error) => {
           // Uh-oh, an error occurred!
           console.warn('Error ocurred :( ', error);
-        }),);
+        }), );
   }
   constructor() {
     super();
     this.state = {
       cards: [],
+      isOpen: true,
     };
   }
 
@@ -147,7 +149,7 @@ export default class BoardContainer extends React.Component {
             status: { $set: listId },
           },
         },
-      }),);
+      }), );
     }
   });
 
@@ -175,7 +177,7 @@ export default class BoardContainer extends React.Component {
   persistCardDrag = (cardId, status) => {
     // Find the index of the card
     const cardIndex = this.state.cards.findIndex(card => card.id === cardId);
-    const card = this.state.cards[cardIndex]
+    const card = this.state.cards[cardIndex];
     console.log(status);
     database
       .ref(`cards/${cardId}/`)
@@ -198,11 +200,76 @@ export default class BoardContainer extends React.Component {
       });
   }
 
+  addCard = (newCard) => {
+    // Keep a reference to the original state prior to the mutations
+    // in case we need to revert the optimistic changes in the UI
+    const prevState = this.state;
+
+    const cardId = uuid();
+    let card;
+    // Add a temporary ID to the card
+    if (newCard.id === null) {
+      card = Object.assign({}, card, { id: cardId });
+      console.log(card);
+    } else {
+      card = { ...newCard };
+    }
+    // Create a new object and push the new card to the array of cards
+    const nextState = update(this.state.cards, { $push: [card] });
+    // set the component state to the mutated object
+    this.setState({ cards: nextState });
+    // Add card to firebase
+    database
+      .ref('cards')
+      .push(card)
+      .then((ref) => {
+        console.log(ref.key);
+        return ref.key;
+      })
+      .then((key) => {
+      // When the server returns the definitive ID
+      // used for the new Card on the server, update it on React
+        card.id = key;
+        this.setState({ cards: nextState });
+      })
+      .catch((error) => {
+        this.setState(prevState);
+      });
+  }
+
+  updateCard = (card) => {
+    const cardId = card.id;
+    // Keep a reference to the original state prior to the mutations
+    // in case we need to revert the optimistic changes in the UI
+    const prevState = this.state;
+    // Find the index of the card
+    const cardIndex = this.state.cards.findIndex(c => c.id === card.id);
+    // Using the $set command, we will change the whole card
+    const nextState = update(this.state.cards, {
+      [cardIndex]: { $set: card }
+    });
+    // set the component state to the mutated object
+    this.setState({ cards: nextState });
+    console.log(card);
+    // Call the API to update the card on the server
+    // database
+    //   .ref(`cards/${cardId}/`)
+    //   .update({
+    //     card
+    //   })
+    //   .then(() => {
+    //     console.log('card updated')
+    //   })
+    //   .catch((error) => {
+    //     console.error('DB error:', error);
+    //     this.setState(prevState);
+    //   });
+  }
+
+  // <button onClick={BoardContainer.dbPush}>Add data</button>
   render() {
-    // console.log(this.state);
     return (
       <div>
-        <button onClick={BoardContainer.dbPush}>Add data</button>
         <Board
           cards={this.state.cards}
           taskCallbacks={{
@@ -213,7 +280,9 @@ export default class BoardContainer extends React.Component {
           cardCallbacks={{
             updateStatus: this.updateCardStatus,
             updatePosition: this.updateCardPosition,
-            persistCardDrag: this.persistCardDrag
+            persistCardDrag: this.persistCardDrag,
+            addCard: this.addCard,
+            updateCard: this.updateCard
           }}
         />
       </div>

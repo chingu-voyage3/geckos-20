@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import marked from 'marked';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { DragSource, DropTarget } from 'react-dnd';
+import Modal from 'react-modal';
 import CheckList from './CheckList';
 import constants from '../constants';
+import EditCard from './EditCard';
 
 const cardDragSpec = {
   beginDrag(props) {
@@ -44,6 +46,7 @@ export class Card extends Component {
     super();
     this.state = {
       showDetails: false,
+      isOpen: false,
     };
   }
 
@@ -51,7 +54,28 @@ export class Card extends Component {
     this.setState((state, props) => ({ showDetails: !this.state.showDetails }));
   };
 
+  handleModalOpen = () => {
+    this.setState(() => ({
+      isOpen: true,
+    }));
+  };
+  handleModalClose = () => {
+    this.setState(() => ({ isOpen: false }));
+  };
+
   render() {
+    const {
+      id, title, description, status, color, tasks
+    } = { ...this.props };
+    const card = {
+      id,
+      title,
+      description,
+      status,
+      color,
+      tasks,
+    };
+    console.log(card);
     const {
       connectDragSource,
       connectDropTarget,
@@ -84,20 +108,44 @@ export class Card extends Component {
       width: 7,
       backgroundColor: this.props.color,
     };
-    return connectDropTarget(connectDragSource(<div className="card">
-      <div style={sideColor} />
-      <div
-        className={
-          this.state.showDetails
-            ? 'card__title card__title--is-open'
-            : 'card__title'
-        }
-        onClick={this.onToggleDetails}
-        onKeyDown={this.onToggleDetails}
-      >
-        {this.props.title}
+    return connectDropTarget(connectDragSource(<div>
+      <div className="card">
+        <div style={sideColor} />
+        <div className="card__edit">
+          <button key={this.props.id} onClick={this.handleModalOpen}>
+                &#9998;
+          </button>
+        </div>
+        <div
+          className={
+            this.state.showDetails
+              ? 'card__title card__title--is-open'
+              : 'card__title'
+          }
+          onClick={this.onToggleDetails}
+          onKeyDown={this.onToggleDetails}
+        >
+          {this.props.title}
+        </div>
+        <TransitionGroup>{cardDetails}</TransitionGroup>
       </div>
-      <TransitionGroup>{cardDetails}</TransitionGroup>
+      <Modal
+        isOpen={!!this.state.isOpen}
+        onRequestClose={this.handleModalClose}
+        contentLabel="Add task"
+        closeTimeoutMS={200}
+        className="overlay"
+        ariaHideApp={false}
+      >
+        <EditCard
+          card={card}
+          cardCallbacks={this.props.cardCallbacks}
+          modalClose={this.handleModalClose}
+        />
+        <button className="button" onClick={this.handleModalClose}>
+              &times;
+        </button>
+      </Modal>
     </div>, ), );
   }
 }
