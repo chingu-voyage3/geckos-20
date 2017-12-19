@@ -9,12 +9,6 @@ export class EditCard extends Component {
       updatePosition: PropTypes.func.isRequired,
     }).isRequired,
   };
-
-  componentWillMount() {
-    const card = this.props.cards.find(card => card.id === this.props.params.card_id, );
-    this.setState({ ...card });
-  }
-
   handleChange = (field, value) => {
     this.setState({ [field]: value });
   };
@@ -30,7 +24,7 @@ export class EditCard extends Component {
   render() {
     return (
       <CardForm
-        draftCard={this.state}
+        draftCard={this.props.card}
         buttonLabel="Edit Card"
         handleChange={this.handleChange}
         handleSubmit={this.handleSubmit}

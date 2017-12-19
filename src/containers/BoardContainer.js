@@ -237,37 +237,34 @@ export default class BoardContainer extends React.Component {
       });
   }
 
-  // updateCard = (card) => {
-  //   // Keep a reference to the original state prior to the mutations
-  //   // in case we need to revert the optimistic changes in the UI
-  //   const prevState = this.state;
-  //   // Find the index of the card
-  //   const cardIndex = this.state.cards.findIndex(c => c.id == card.id);
-  //   // Using the $set command, we will change the whole card
-  //   const nextState = update(this.state.cards, {
-  //     [cardIndex]: { $set: card }
-  //   });
-  //   // set the component state to the mutated object
-  //   this.setState({ cards: nextState });
-  //   // Call the API to update the card on the server
-  //   database
-  //     .ref(`cards/${cardId}/`)
-  //     .update({
-  //       status: card.status
-  //     })
-  //     .then((response) => {
-  //       if (!response.ok) {
-  //         // Throw an error if server response wasn't 'ok'
-  //         // so we can revert back the optimistic changes
-  //         // made to the UI.
-  //         throw new Error("Server response wasn't OK");
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.error('Fetch error:', error);
-  //       this.setState(prevState);
-  //     });
-  // }
+  updateCard = (card) => {
+    const cardId = card.id;
+    // Keep a reference to the original state prior to the mutations
+    // in case we need to revert the optimistic changes in the UI
+    const prevState = this.state;
+    // Find the index of the card
+    const cardIndex = this.state.cards.findIndex(c => c.id === card.id);
+    // Using the $set command, we will change the whole card
+    const nextState = update(this.state.cards, {
+      [cardIndex]: { $set: card }
+    });
+    // set the component state to the mutated object
+    this.setState({ cards: nextState });
+    console.log(card);
+    // Call the API to update the card on the server
+    // database
+    //   .ref(`cards/${cardId}/`)
+    //   .update({
+    //     card
+    //   })
+    //   .then(() => {
+    //     console.log('card updated')
+    //   })
+    //   .catch((error) => {
+    //     console.error('DB error:', error);
+    //     this.setState(prevState);
+    //   });
+  }
 
   // <button onClick={BoardContainer.dbPush}>Add data</button>
   render() {
@@ -284,7 +281,8 @@ export default class BoardContainer extends React.Component {
             updateStatus: this.updateCardStatus,
             updatePosition: this.updateCardPosition,
             persistCardDrag: this.persistCardDrag,
-            addCard: this.addCard
+            addCard: this.addCard,
+            updateCard: this.updateCard
           }}
         />
       </div>
