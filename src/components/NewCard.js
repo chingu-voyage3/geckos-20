@@ -1,17 +1,16 @@
 /* eslint-disable react/require-default-props */
-/* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import uuid from 'uuid/v4';
 import { withRouter } from 'react-router';
 import CardForm from './CardForm';
-import uuid from 'uuid/v4';
 
 class NewCard extends Component {
   static propTypes = {
     cardCallbacks: PropTypes.shape({
       updateStatus: PropTypes.func.isRequired,
-      updatePosition: PropTypes.func.isRequired,
-    }),
+      updatePosition: PropTypes.func.isRequired
+    })
   };
 
   componentWillMount() {
@@ -21,7 +20,7 @@ class NewCard extends Component {
       description: '',
       status: 'todo',
       color: '#c9c9c9',
-      tasks: [],
+      tasks: []
     });
   }
 

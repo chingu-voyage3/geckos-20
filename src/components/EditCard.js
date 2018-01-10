@@ -9,6 +9,16 @@ export class EditCard extends Component {
       updatePosition: PropTypes.func.isRequired,
     }).isRequired,
   };
+  componentWillMount() {
+    this.setState({
+      id: this.props.card.id,
+      title: this.props.card.title,
+      description: this.props.card.description,
+      status: this.props.card.status,
+      color: this.props.card.color,
+      tasks: this.props.card.tasks,
+    });
+  }
   handleChange = (field, value) => {
     this.setState({ [field]: value });
   };
