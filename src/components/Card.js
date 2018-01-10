@@ -1,3 +1,4 @@
+/* eslint-disable import/no-named-as-default */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import marked from 'marked';
@@ -75,7 +76,6 @@ export class Card extends Component {
       color,
       tasks,
     };
-    console.log(card);
     const {
       connectDragSource,
       connectDropTarget,
