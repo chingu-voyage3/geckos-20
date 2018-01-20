@@ -2,6 +2,7 @@
 import uuid from 'uuid/v4';
 import * as types from '../types';
 import database from '../../firebase/firebase';
+import { fetchCards } from './cardActions';
 
 const startToggleTask = cards => ({
   type: types.TOGGLE_TASK,
@@ -36,23 +37,22 @@ export const toggleTask = (cardId, taskId, taskStatus) => (
     });
 };
 
-const startDeleteTask = (cardId, taskId) => ({
+const startDeleteTask = cards => ({
   type: types.DELETE_TASK,
-  cardId,
-  taskId
+  cards
 });
 
-export const deleteTask = (cardId, taskId) => {
-  const prevState = this.state;
-  const cardIndex = this.state.cards.findIndex(card => card.id === cardId);
+export const deleteTask = (cardId, taskId) => (dispatch, getState) => {
+  const prevState = getState().cards;
+  const cards = [...prevState.cards];
+  const cardIndex = cards.findIndex(card => card.id === cardId);
   // Create a new object without the task
-  const cards = [...this.state.cards];
   // Return new array with all values that passed filter test for task.id value
   const newTasks = cards[cardIndex].tasks.filter(task => task.id !== taskId);
   // append modified tasks arr to card
   cards[cardIndex].tasks = newTasks;
 
-  this.setState(cards);
+  dispatch(startDeleteTask(cards));
 
   // mirror changes to firebase
   database
@@ -65,33 +65,40 @@ export const deleteTask = (cardId, taskId) => {
     .catch((error) => {
       // Uh-oh, an error occurred!
       console.warn('Error ocurred :( ', error);
-      this.setState(prevState);
+      // this.setState(prevState);
     });
 };
 
-const startAddTask = (cardId, taskName) => ({
+const startAddTask = cards => ({
   type: types.ADD_TASK,
-  cardId,
-  taskName
+  cards
 });
 
-export const addTask = (cardId, taskName) => {
-  // Keep a reference to the original state prior to the mutations
-  // in case you need to revert the optimistic changes in the UI
-  const prevState = this.state;
+export const addTask = (cardId, taskName) => (dispatch, getState) => {
   const task = {
     id: uuid(),
     name: taskName,
     done: false,
     createdAt: Date.now()
   };
+
+  const prevState = getState().cards;
+  const cards = [...prevState.cards];
+  const cardIndex = cards.findIndex(card => card.id === cardId);
+  const updatedTasks = [...cards[cardIndex].tasks, task];
+  cards[cardIndex].tasks = updatedTasks;
+
+  dispatch(startAddTask(cards));
+
   return database
     .ref(`cards/${cardId}/tasks/${task.id}`)
     .set(task)
-    .then(() => this.dbFetch())
+    .then(() => console.log('db tasks updated'))
     .catch((error) => {
       // Uh-oh, an error occurred!
       console.warn('Error ocurred :( ', error);
-      this.setState(prevState);
+      // Keep a reference to the original state prior to the mutations
+      // in case you need to revert the optimistic changes in the UI
+      // this.setState(prevState);
     });
 };

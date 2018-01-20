@@ -44,10 +44,6 @@ Column.propTypes = {
   cardCallbacks: PropTypes.shape({
     updateStatus: PropTypes.func.isRequired,
     updatePosition: PropTypes.func.isRequired
-  }).isRequired,
-  taskCallbacks: PropTypes.shape({
-    delete: PropTypes.func.isRequired,
-    add: PropTypes.func.isRequired
   }).isRequired
 };
 

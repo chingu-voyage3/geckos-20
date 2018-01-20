@@ -10,7 +10,10 @@ export default (state = initialState, action) => {
     return { ...state, cards: action.cards };
   case types.TOGGLE_TASK:
     return { ...state, cards: action.cards };
-
+  case types.DELETE_TASK:
+    return { ...state, cards: action.cards };
+  case types.ADD_TASK:
+    return { ...state, cards: action.cards };
   default:
     return state;
   }

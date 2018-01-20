@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { toggleTask } from '../store/actions/taskActions';
+import { toggleTask, deleteTask, addTask } from '../store/actions/taskActions';
 
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 class CheckList extends Component {
   checkInputKeyPress = (evt) => {
     if (evt.key === 'Enter') {
-      this.props.taskCallbacks.add(this.props.cardId, evt.target.value);
+      this.props.addTask(this.props.cardId, evt.target.value);
       evt.target.value = '';
     }
   };
@@ -33,12 +33,8 @@ class CheckList extends Component {
           {task.name}
           <a
             className="checklist__task--remove"
-            onClick={() =>
-              this.props.taskCallbacks.delete(this.props.cardId, task.id)
-            }
-            onKeyDown={() =>
-              this.props.taskCallbacks.delete(this.props.cardId, task.id)
-            }
+            onClick={() => this.props.deleteTask(this.props.cardId, task.id)}
+            onKeyDown={() => this.props.deleteTask(this.props.cardId, task.id)}
           >
             &nbsp;
           </a>
@@ -61,19 +57,16 @@ class CheckList extends Component {
 
 CheckList.propTypes = {
   cardId: PropTypes.string.isRequired,
-  tasks: PropTypes.arrayOf(PropTypes.object),
-  taskCallbacks: PropTypes.shape({
-    toggle: PropTypes.func.isRequired,
-    delete: PropTypes.func.isRequired,
-    add: PropTypes.func.isRequired
-  }).isRequired
+  tasks: PropTypes.arrayOf(PropTypes.object)
 };
 
 const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => ({
   toggleTask: (cardId, taskId, taskStatus) =>
-    dispatch(toggleTask(cardId, taskId, taskStatus))
+    dispatch(toggleTask(cardId, taskId, taskStatus)),
+  deleteTask: (cardId, taskId) => dispatch(deleteTask(cardId, taskId)),
+  addTask: (cardId, taskName) => dispatch(addTask(cardId, taskName))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CheckList);

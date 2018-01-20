@@ -74,10 +74,6 @@ export class Board extends Component {
 }
 Board.propTypes = {
   cards: PropTypes.arrayOf(PropTypes.object),
-  taskCallbacks: PropTypes.shape({
-    delete: PropTypes.func.isRequired,
-    add: PropTypes.func.isRequired
-  }).isRequired,
   cardCallbacks: PropTypes.shape({
     updateStatus: PropTypes.func.isRequired,
     updatePosition: PropTypes.func.isRequired
