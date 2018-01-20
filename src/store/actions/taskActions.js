@@ -12,29 +12,28 @@ export const toggleTask = (cardId, taskId, taskStatus) => (
   dispatch,
   getState
 ) => {
-  const prevState = getState();
-  console.log(prevState);
-  const cardIndex = prevState.cards.findIndex(card => card.id === cardId);
-  // Create a new object without the task
+  const prevState = getState().cards;
   const cards = [...prevState.cards];
+  const cardIndex = cards.findIndex(card => card.id === cardId);
+  // Create a new object without the task
   const toggledTask = cards[cardIndex].tasks.find(task => task.id === taskId);
   toggledTask.done = !taskStatus;
   dispatch(startToggleTask(cards));
   // mirror changes to firebase
-  // database
-  //   .ref(`cards/${cardId}/tasks/${taskId}`)
-  //   .update({
-  //     done: toggledTask.done
-  //   })
-  //   .then(() => {
-  //     // File updated successfully
-  //     console.log('task status updated');
-  //   })
-  //   .catch((error) => {
-  //     // Uh-oh, an error occurred!
-  //     console.warn('Error ocurred :( ', error);
-  //     // this.setState(prevState);
-  //   });
+  database
+    .ref(`cards/${cardId}/tasks/${taskId}`)
+    .update({
+      done: toggledTask.done
+    })
+    .then(() => {
+      // File updated successfully
+      console.log('task status updated');
+    })
+    .catch((error) => {
+      // Uh-oh, an error occurred!
+      console.warn('Error ocurred :( ', error);
+      // this.setState(prevState);
+    });
 };
 
 const startDeleteTask = (cardId, taskId) => ({

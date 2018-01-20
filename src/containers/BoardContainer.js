@@ -34,37 +34,6 @@ class BoardContainer extends React.Component {
     this.props.fetchCards();
   };
 
-  dbFetch = () => {
-    database
-      .ref('cards')
-      .once('value')
-      .then((snapshot) => {
-        const cards = [];
-        snapshot.forEach((childSnapshot) => {
-          // console.log(childSnapshot.val());
-          let taskArr;
-          if (childSnapshot.val().tasks) {
-            // Take Object of tasks and spread it to array for each card so it can be mapped and filtered
-            taskArr = Object.keys(childSnapshot.val().tasks).map(key => ({
-              ...childSnapshot.val().tasks[key]
-            }));
-          }
-          // console.log(taskArr);
-          cards.push({
-            ...childSnapshot.val(),
-            tasks: taskArr,
-            id: childSnapshot.key
-          });
-        });
-        console.log(cards);
-        this.setState(() => ({ cards }));
-      })
-      .catch((error) => {
-        // Uh-oh, an error occurred!
-        console.warn('Error ocurred :( ', error);
-      });
-  };
-
   addTask = (cardId, taskName) => {
     // Keep a reference to the original state prior to the mutations
     // in case you need to revert the optimistic changes in the UI
@@ -105,31 +74,6 @@ class BoardContainer extends React.Component {
       .then(() => {
         // File deleted successfully
         console.log('task removed');
-      })
-      .catch((error) => {
-        // Uh-oh, an error occurred!
-        console.warn('Error ocurred :( ', error);
-        this.setState(prevState);
-      });
-  };
-
-  toggleTask = (cardId, taskId, taskStatus) => {
-    const prevState = this.state;
-    const cardIndex = this.props.cards.findIndex(card => card.id === cardId);
-    // Create a new object without the task
-    const cards = [...this.props.cards];
-    const task = cards[cardIndex].tasks.find(task => task.id === taskId);
-    task.done = !taskStatus;
-    this.setState(cards);
-    // mirror changes to firebase
-    database
-      .ref(`cards/${cardId}/tasks/${taskId}`)
-      .update({
-        done: task.done
-      })
-      .then(() => {
-        // File updated successfully
-        console.log('task status updated');
       })
       .catch((error) => {
         // Uh-oh, an error occurred!
@@ -273,7 +217,6 @@ class BoardContainer extends React.Component {
         <Board
           cards={this.props.cards}
           taskCallbacks={{
-            toggle: this.toggleTask,
             delete: this.deleteTask,
             add: this.addTask
           }}
