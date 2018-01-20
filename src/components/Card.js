@@ -157,11 +157,6 @@ Card.propTypes = {
   color: PropTypes.string,
   connectDragSource: PropTypes.func.isRequired,
   connectDropTarget: PropTypes.func.isRequired,
-  taskCallbacks: PropTypes.shape({
-    toggle: PropTypes.func.isRequired,
-    delete: PropTypes.func.isRequired,
-    add: PropTypes.func.isRequired,
-  }).isRequired,
   cardCallbacks: PropTypes.shape({
     updateStatus: PropTypes.func.isRequired,
     updatePosition: PropTypes.func.isRequired,

@@ -8,11 +8,11 @@ const listTargetSpec = {
   hover(props, monitor) {
     const draggedId = monitor.getItem().id;
     props.cardCallbacks.updateStatus(draggedId, props.id);
-  },
+  }
 };
 function collect(connect, monitor) {
   return {
-    connectDropTarget: connect.dropTarget(),
+    connectDropTarget: connect.dropTarget()
   };
 }
 
@@ -33,7 +33,7 @@ export class Column extends Component {
     return connectDropTarget(<div className="column">
       <h1>{this.props.title}</h1>
       {cards}
-    </div>, );
+    </div>);
   }
 }
 
@@ -43,13 +43,8 @@ Column.propTypes = {
   connectDropTarget: PropTypes.func.isRequired,
   cardCallbacks: PropTypes.shape({
     updateStatus: PropTypes.func.isRequired,
-    updatePosition: PropTypes.func.isRequired,
-  }).isRequired,
-  taskCallbacks: PropTypes.shape({
-    toggle: PropTypes.func.isRequired,
-    delete: PropTypes.func.isRequired,
-    add: PropTypes.func.isRequired,
-  }).isRequired,
+    updatePosition: PropTypes.func.isRequired
+  }).isRequired
 };
 
 export default DropTarget(constants.CARD, listTargetSpec, collect)(Column);

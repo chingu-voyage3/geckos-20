@@ -12,13 +12,13 @@ export class Board extends Component {
     super(props);
 
     this.state = {
-      isOpen: false,
+      isOpen: false
     };
   }
 
   handleModalOpen = () => {
     this.setState(() => ({
-      isOpen: true,
+      isOpen: true
     }));
   };
   handleModalClose = () => {
@@ -74,19 +74,14 @@ export class Board extends Component {
 }
 Board.propTypes = {
   cards: PropTypes.arrayOf(PropTypes.object),
-  taskCallbacks: PropTypes.shape({
-    toggle: PropTypes.func.isRequired,
-    delete: PropTypes.func.isRequired,
-    add: PropTypes.func.isRequired,
-  }).isRequired,
   cardCallbacks: PropTypes.shape({
     updateStatus: PropTypes.func.isRequired,
-    updatePosition: PropTypes.func.isRequired,
-  }).isRequired,
+    updatePosition: PropTypes.func.isRequired
+  }).isRequired
 };
 
 Board.defaultProps = {
-  cards: dataModel,
+  cards: dataModel
 };
 
 export default DragDropContext(HTML5Backend)(Board);
