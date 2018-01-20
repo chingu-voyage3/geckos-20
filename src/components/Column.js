@@ -30,10 +30,11 @@ export class Column extends Component {
           />
         ))
         : null;
-    return connectDropTarget(<div className="column">
-      <h1>{this.props.title}</h1>
-      {cards}
-    </div>, );
+    return connectDropTarget(
+      <div className="column">
+        <h1>{this.props.title}</h1>
+        {cards}
+      </div>, );
   }
 }
 

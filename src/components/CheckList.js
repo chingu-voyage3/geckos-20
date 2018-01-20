@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { toggleTask } from '../store/actions/taskActions';
 
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-export default class CheckList extends Component {
+class CheckList extends Component {
   checkInputKeyPress = (evt) => {
     if (evt.key === 'Enter') {
       this.props.taskCallbacks.add(this.props.cardId, evt.target.value);
@@ -25,11 +27,7 @@ export default class CheckList extends Component {
             type="checkbox"
             defaultChecked={task.done}
             onChange={() =>
-              this.props.taskCallbacks.toggle(
-                this.props.cardId,
-                task.id,
-                task.done,
-              )
+              this.props.toggleTask(this.props.cardId, task.id, task.done)
             }
           />
           {task.name}
@@ -67,6 +65,15 @@ CheckList.propTypes = {
   taskCallbacks: PropTypes.shape({
     toggle: PropTypes.func.isRequired,
     delete: PropTypes.func.isRequired,
-    add: PropTypes.func.isRequired,
-  }).isRequired,
+    add: PropTypes.func.isRequired
+  }).isRequired
 };
+
+const mapStateToProps = state => ({});
+
+const mapDispatchToProps = dispatch => ({
+  toggleTask: (cardId, taskId, taskStatus) =>
+    dispatch(toggleTask(cardId, taskId, taskStatus))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CheckList);
