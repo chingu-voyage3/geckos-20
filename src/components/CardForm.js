@@ -26,13 +26,11 @@ class CardForm extends Component {
   };
 
   onChange = (field, e) => {
-    console.log('Field: ', field);
-    console.log('Value: ', e);
-
     this.setState({ [field]: e.target.value });
   };
 
   render() {
+    const { id } = this.state;
     return (
       <div>
         <div className="card big">
@@ -76,6 +74,11 @@ class CardForm extends Component {
               <button type="submit">{this.props.buttonLabel}</button>
             </div>
           </form>
+          {this.props.removeCard ? (
+            <button onClick={() => this.props.removeCard(id)}>
+              Remove Card
+            </button>
+          ) : null}
         </div>
       </div>
     );

@@ -18,6 +18,8 @@ export default (state = initialState, action) => {
     return { ...state, cards: action.cards };
   case types.UPDATE_CARD:
     return { ...state, cards: action.cards };
+  case types.REMOVE_CARD:
+    return { ...state, cards: action.cards };
   default:
     return state;
   }

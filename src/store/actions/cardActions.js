@@ -39,12 +39,6 @@ export const fetchCards = () => (dispatch) => {
     });
 };
 
-export const updateCardStatus = () => {};
-
-export const updateCardPosition = () => {};
-
-export const persistCardDrag = () => {};
-
 const startAddCard = cards => ({
   type: types.ADD_CARD,
   cards
@@ -116,5 +110,25 @@ export const updateCard = card => (dispatch, getState) => {
     .catch((error) => {
       console.error('DB error:', error);
       dispatch(startUpdateCard(cards));
+    });
+};
+
+const startRemoveCard = cards => ({
+  type: types.REMOVE_CARD,
+  cards
+});
+
+export const removeCard = cardId => (dispatch, getState) => {
+  const { cards } = getState().cards;
+  const updatedCards = cards.filter(({ id }) => id !== cardId);
+
+  return database
+    .ref(`cards/${cardId}/`)
+    .remove()
+    .then(() => {
+      dispatch(startRemoveCard(updatedCards));
+    })
+    .catch((err) => {
+      console.log(err);
     });
 };
