@@ -1,38 +1,18 @@
 /* eslint-disable react/require-default-props */
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import uuid from 'uuid/v4';
 import { withRouter } from 'react-router';
+import { connect } from 'react-redux';
 import CardForm from './CardForm';
+import { addCard } from '../store/actions/cardActions';
 
 class NewCard extends Component {
-  static propTypes = {
-    cardCallbacks: PropTypes.shape({
-      updateStatus: PropTypes.func.isRequired,
-      updatePosition: PropTypes.func.isRequired
-    })
-  };
-
-  componentWillMount() {
-    this.setState({
-      id: uuid(),
-      title: '',
-      description: '',
-      status: 'todo',
-      color: '#c9c9c9',
-      tasks: []
-    });
-  }
-
-  handleChange = (field, value) => {
-    this.setState({ [field]: value });
-  };
-  handleSubmit = (e) => {
+  handleSubmit = (e, newCard) => {
     e.preventDefault();
-    this.props.cardCallbacks.addCard(this.state);
+    this.props.addCard(newCard);
     this.props.modalClose();
     // this.props.history.push('/dashboard');
   };
+
   handleClose = (e) => {
     this.props.modalClose();
   };
@@ -40,9 +20,8 @@ class NewCard extends Component {
   render() {
     return (
       <CardForm
-        draftCard={this.state}
+        draftCard={{}}
         buttonLabel="Create Card"
-        handleChange={this.handleChange}
         handleSubmit={this.handleSubmit}
         handleClose={this.handleClose}
       />
@@ -50,4 +29,8 @@ class NewCard extends Component {
   }
 }
 
-export default withRouter(NewCard);
+const mapDispatchToProps = dispatch => ({
+  addCard: card => dispatch(addCard(card))
+});
+
+export default connect(null, mapDispatchToProps)(withRouter(NewCard));

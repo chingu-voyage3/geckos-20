@@ -93,7 +93,6 @@ export class Card extends Component {
             <CheckList
               cardId={this.props.id}
               tasks={this.props.tasks}
-              taskCallbacks={this.props.taskCallbacks}
             />
           </div>
         </CSSTransition>

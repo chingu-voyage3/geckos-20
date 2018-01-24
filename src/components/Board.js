@@ -34,21 +34,18 @@ export class Board extends Component {
         <Column
           id="todo"
           title="To Do"
-          taskCallbacks={this.props.taskCallbacks}
           cardCallbacks={this.props.cardCallbacks}
           cards={this.props.cards.filter(card => card.status === 'todo')}
         />
         <Column
           id="in-progress"
           title="In Progress"
-          taskCallbacks={this.props.taskCallbacks}
           cardCallbacks={this.props.cardCallbacks}
           cards={this.props.cards.filter(card => card.status === 'in-progress')}
         />
         <Column
           id="done"
           title="Done"
-          taskCallbacks={this.props.taskCallbacks}
           cardCallbacks={this.props.cardCallbacks}
           cards={this.props.cards.filter(card => card.status === 'done')}
         />

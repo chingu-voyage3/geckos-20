@@ -14,6 +14,10 @@ export default (state = initialState, action) => {
     return { ...state, cards: action.cards };
   case types.ADD_TASK:
     return { ...state, cards: action.cards };
+  case types.ADD_CARD:
+    return { ...state, cards: action.cards };
+  case types.UPDATE_CARD:
+    return { ...state, cards: action.cards };
   default:
     return state;
   }
