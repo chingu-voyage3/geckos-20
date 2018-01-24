@@ -1,37 +1,52 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import uuid from 'uuid/v4';
+
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-export class CardForm extends Component {
+/* eslint-disable react/no-unused-state */
+class CardForm extends Component {
   static propTypes = {
     buttonLabel: PropTypes.string.isRequired,
     draftCard: PropTypes.shape({
       title: PropTypes.string,
       description: PropTypes.string,
       status: PropTypes.string,
-      color: PropTypes.string,
+      color: PropTypes.string
     }).isRequired,
-    handleSubmit: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func.isRequired
   };
 
-  handleChange = (field, e) => {
-    this.props.handleChange(field, e.target.value);
+  state = {
+    id: this.props.draftCard.id || uuid(),
+    title: this.props.draftCard.title || '',
+    description: this.props.draftCard.description || '',
+    status: this.props.draftCard.status || 'todo',
+    color: this.props.draftCard.color || '#c9c9c9',
+    tasks: this.props.draftCard.tasks || []
+  };
+
+  onChange = (field, e) => {
+    console.log('Field: ', field);
+    console.log('Value: ', e);
+
+    this.setState({ [field]: e.target.value });
   };
 
   render() {
     return (
       <div>
         <div className="card big">
-          <form onSubmit={this.props.handleSubmit}>
+          <form onSubmit={e => this.props.handleSubmit(e, this.state)}>
             <input
               type="text"
-              value={this.props.draftCard.title}
-              onChange={e => this.handleChange('title', e)}
+              value={this.state.title}
+              onChange={e => this.onChange('title', e)}
               placeholder="Title"
               required
             />
             <textarea
-              value={this.props.draftCard.description}
-              onChange={e => this.handleChange('description', e)}
+              value={this.state.description}
+              onChange={e => this.onChange('description', e)}
               placeholder="Description"
               required
             />
@@ -39,8 +54,8 @@ export class CardForm extends Component {
               Status
               <select
                 id="status"
-                value={this.props.draftCard.status}
-                onChange={e => this.handleChange('status', e)}
+                value={this.state.status}
+                onChange={e => this.onChange('status', e)}
               >
                 <option value="todo">To Do</option>
                 <option value="in-progress">In Progress</option>
@@ -52,8 +67,8 @@ export class CardForm extends Component {
               Color
               <input
                 id="color"
-                value={this.props.draftCard.color}
-                onChange={e => this.handleChange('color', e)}
+                value={this.state.color}
+                onChange={e => this.onChange('color', e)}
                 type="color"
               />
             </label>

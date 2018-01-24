@@ -25,7 +25,6 @@ export class Column extends Component {
           <Card
             key={card.id}
             {...card}
-            taskCallbacks={this.props.taskCallbacks}
             cardCallbacks={this.props.cardCallbacks}
           />
         ))

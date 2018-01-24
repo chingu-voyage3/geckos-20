@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+import update from 'immutability-helper';
 import database from '../../firebase/firebase';
 import * as types from '../types';
 
@@ -38,12 +39,82 @@ export const fetchCards = () => (dispatch) => {
     });
 };
 
-export const updateCardStatus = (params) => {};
+export const updateCardStatus = () => {};
 
-export const updateCardPosition = (params) => {};
+export const updateCardPosition = () => {};
 
-export const persistCardDrag = (params) => {};
+export const persistCardDrag = () => {};
 
-export const addCard = (params) => {};
+const startAddCard = cards => ({
+  type: types.ADD_CARD,
+  cards
+});
 
-export const updateCard = (params) => {};
+export const addCard = newCard => (dispatch, getState) => {
+  // Keep a reference to the original state prior to the mutations
+  // in case we need to revert the optimistic changes in the UI
+  const { cards } = getState();
+  let card;
+
+  // Add a temporary ID to the card
+  if (newCard.id === null) {
+    card = Object.assign({}, card);
+    console.log(card);
+  } else {
+    card = { ...newCard };
+  }
+  // Create a new object and push the new card to the array of cards
+  const updatedCards = [...cards.cards, card];
+
+  // Add card to firebase
+  database
+    .ref('cards')
+    .push(card)
+    .then((ref) => {
+      console.log(ref.key);
+      return ref.key;
+    })
+    .then((key) => {
+      // When the server returns the definitive ID
+      // used for the new Card on the server, update it on React
+      card.id = key;
+      dispatch(startAddCard(updatedCards));
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch(startAddCard(cards.cards));
+    });
+};
+
+const startUpdateCard = cards => ({
+  type: types.UPDATE_CARD,
+  cards
+});
+
+export const updateCard = card => (dispatch, getState) => {
+  const cardId = card.id;
+  // Keep a reference to the original state prior to the mutations
+  // in case we need to revert the optimistic changes in the UI
+  const { cards } = getState().cards;
+  // Find the index of the card
+  const cardIndex = cards.findIndex(c => c.id === cardId);
+  // Using the $set command, we will change the whole card
+  const updatedCards = update(cards, {
+    [cardIndex]: { $set: card }
+  });
+  // set the component state to the mutated object
+  // this.setState({ cards: nextState });
+  console.log(card);
+  // Call the API to update the card on the server
+  database
+    .ref(`cards/${cardId}/`)
+    .update(card)
+    .then(() => {
+      console.log('card updated');
+      dispatch(startUpdateCard(updatedCards));
+    })
+    .catch((error) => {
+      console.error('DB error:', error);
+      dispatch(startUpdateCard(cards));
+    });
+};
