@@ -1,24 +1,36 @@
 .board {
   display: flex;
   padding: 2rem;
+  background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.65) 0%,
+      rgba(255, 255, 255, 0.65) 59%,
+      rgba(255, 255, 255, 0.65) 100%
+    ),
+    url('/assets/joshua-newton-scaled.jpg') no-repeat center;
+  background-size: cover;
+  width: 100%;
+  height: 90%;
+  overflow: hidden;
+}
 
-  &__header {
-    display: flex;
-    background: #6278aa;
+.board__header {
+  display: flex;
+  background: $primary-dark-green;
+  color: aliceblue;
+  padding: 3rem;
+  height: 10%;
+  justify-content: space-between;
+  border-bottom: 2px solid darken($color: $primary-dark-green, $amount: 40);
+  &__title {
+    margin: 0;
+    font-size: 3rem;
     color: aliceblue;
-    padding: 2rem;
-    justify-content: space-between;
+    cursor: pointer;
+    text-decoration: none;
+  }
 
-    &__title {
-      margin: 0;
-      font-size: 3rem;
-      color: aliceblue;
-      cursor: pointer;
-      text-decoration: none;
-    }
-
-    &__logout {
-      cursor: pointer;
-    }
+  &__logout {
+    cursor: pointer;
   }
 }

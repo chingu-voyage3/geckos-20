@@ -13,6 +13,7 @@
     position: relative;
     font-size: 1.5rem;
     margin: 0 1rem;
+    min-width: 13.6rem;
     // Changes for the button element
     border: none;
     cursor: pointer;
@@ -53,6 +54,14 @@
     // This will use animations 0% before animations start
     // Good for elements we want to be hidden before animation
     animation-fill-mode: backwards;
+  }
+
+  &--login {
+    background: $primary-dark-green;
+  }
+
+  &--register {
+    background: $primary-light-green;
   }
 }
 

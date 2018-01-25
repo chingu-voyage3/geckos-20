@@ -1,29 +1,28 @@
 * {
-  box-sizing: border-box;
-}
+  box-sizing: border-box; }
+
 html,
 body {
   height: 100%;
   margin: 0;
   padding: 0;
   /* // 1rem = 10px; 10px/16px = 62.5% */
-  font-size: 10px;
-}
+  font-size: 10px; }
+
 body {
   background: #000;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-}
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+
 h1 {
   font-weight: 200;
   color: #3b414c;
-  font-size: 2rem;
-}
+  font-size: 2rem; }
+
 ul {
   list-style-type: none;
   padding: 0;
-  margin: 0;
-}
+  margin: 0; }
+
 .app {
   white-space: nowrap;
-  height: 100%;
-}
+  height: 100%; }

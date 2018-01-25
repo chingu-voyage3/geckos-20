@@ -11,28 +11,28 @@
 }
 .card.big {
   position: absolute;
-  width: 550px;
-  height: 300px;
+  width: 55rem;
+  height: 30rem;
   margin: auto;
-  padding: 15px;
+  padding: 1.5rem;
   top: 0;
   left: 0;
   bottom: 100px;
   right: 0;
   z-index: 4;
 }
-.card.big input[type="text"],
+.card.big input[type='text'],
 textarea {
   width: 100%;
   margin: 3px 0;
-  font-size: 13px;
+  font-size: 1.3rem;
   border: none;
 }
-.card.big input[type="text"] {
-  font-size: 20px;
+.card.big input[type='text'] {
+  font-size: 2rem;
   font-weight: bold;
 }
-.card.big input[type="text"]:focus,
+.card.big input[type='text']:focus,
 .card.big textarea:focus {
   outline: dashed thin #999;
   outline-offset: 2px;
@@ -41,13 +41,13 @@ textarea {
   margin: 3px 0 7px 3px;
   color: #a7a7a7;
   display: inline-block;
-  width: 60px;
+  width: 6rem;
 }
 .actions {
   margin-top: 10px;
   text-align: right;
 }
 .card.big button {
-  font-size: 14px;
-  padding: 8px;
+  font-size: 1.4rem;
+  padding: 8rem;
 }

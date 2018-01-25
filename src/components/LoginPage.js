@@ -5,8 +5,8 @@ const LoginPage = props => (
     <h1>Just in time</h1>
     <h2>Kanban cards</h2>
     <div>
-      <button className="btn btn--animated"> Login</button>
-      <button className="btn btn--animated"> Register</button>
+      <button className="btn btn--animated btn--login"> Login</button>
+      <button className="btn btn--animated btn--register"> Register</button>
     </div>
   </div>
 );

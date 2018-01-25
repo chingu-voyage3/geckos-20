@@ -7,7 +7,9 @@ export default class Dashboard extends Component {
   };
   render() {
     return (
-      <div>{this.state.boards.length > 1 ? <BoardContainer /> : null}</div>
+      <React.Fragment>
+        {this.state.boards.length > 1 ? <BoardContainer /> : null}
+      </React.Fragment>
     );
   }
 }

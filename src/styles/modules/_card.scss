@@ -17,6 +17,7 @@
   border: 1px solid #e5e5df;
   border-radius: 3px;
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
+  font-size: 1.7rem;
 
   &__title {
     font-weight: bold;
@@ -26,11 +27,11 @@
   &__title:before {
     display: inline-block;
     width: 1em;
-    content: "\25b8";
+    content: '\25b8';
   }
 
   &__title--is-open:before {
-    content: "\25be";
+    content: '\25be';
   }
 }
 
@@ -44,7 +45,7 @@
   &__task--remove:after {
     display: inline-block;
     color: #d66;
-    content: "\2717";
+    content: '\2717';
     cursor: pointer;
   }
 
@@ -89,7 +90,7 @@
 .card__edit a {
   text-decoration: none;
   color: #999;
-  font-size: 17px;
+  font-size: 1.7rem;
 }
 .ReactModal__Overlay {
   z-index: 3;
