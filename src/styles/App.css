@@ -5,11 +5,13 @@ html,
 body {
   height: 100%;
   margin: 0;
-  padding: 0; }
+  padding: 0;
+  /* // 1rem = 10px; 10px/16px = 62.5% */
+  font-size: 62.5%; }
 
 body {
   background: #eee;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
 
 h1 {
   font-weight: 200;
@@ -24,6 +26,34 @@ ul {
 .app {
   white-space: nowrap;
   height: 100%; }
+
+@keyframes moveInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-10rem); }
+  80% {
+    transform: translateX(1rem); }
+  100% {
+    transform: translate(0);
+    opacity: 1; } }
+
+@keyframes moveInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(10rem); }
+  80% {
+    transform: translateX(-1rem); }
+  100% {
+    transform: translate(0);
+    opacity: 1; } }
+
+@keyframes moveFromBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(3rem); }
+  100% {
+    transform: translate(0);
+    opacity: 1; } }
 
 .board {
   display: flex;
@@ -190,6 +220,47 @@ textarea {
   font-size: 14px;
   padding: 8px; }
 
+.btn, .btn:link, .btn:visited {
+  text-decoration: none;
+  padding: 1.5rem 4rem;
+  display: inline-block;
+  border-radius: 100px;
+  transition: all 0.2s;
+  position: relative;
+  font-size: 1.5rem;
+  margin: 0 1rem;
+  border: none;
+  cursor: pointer; }
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2); }
+
+.btn:hover::after {
+  transform: scaleX(1.4) scaleY(1.6);
+  opacity: 0; }
+
+.btn:active, .btn:focus {
+  transform: translateY(-1px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+  outline: none; }
+
+.btn::after {
+  content: '';
+  display: inline-block;
+  transition: all 0.2s;
+  height: 100%;
+  width: 100%;
+  border-radius: 10rem;
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  top: 0; }
+
+.btn--animated {
+  animation: moveFromBottom 0.5s 0.75s ease-out;
+  animation-fill-mode: backwards; }
+
 .float-button {
   position: absolute;
   height: 56px;
@@ -217,3 +288,35 @@ textarea {
   font-size: 2rem;
   height: 40px;
   width: 40px; }
+
+.login-page {
+  height: 100vh;
+  border: 1px solid black;
+  background: #000;
+  background: linear-gradient(to bottom, transparent 0%, transparent 59%, rgba(0, 0, 0, 0.65) 100%), url("/assets/joshua-newton-scaled.jpg") no-repeat center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative; }
+  .login-page h1 {
+    font-size: 8rem;
+    font-weight: 400;
+    backface-visibility: hidden;
+    color: aliceblue;
+    display: block;
+    margin: 0 0 4rem 0;
+    letter-spacing: 3.5rem;
+    animation: moveInLeft 1s 1s ease-out;
+    animation-fill-mode: backwards; }
+  .login-page h2 {
+    font-size: 2rem;
+    color: aliceblue;
+    display: block;
+    margin: 0.5rem 0 4rem 0;
+    font-weight: 700;
+    letter-spacing: 1.75rem;
+    animation: moveInRight 1s 1s ease-out;
+    animation-fill-mode: backwards; }

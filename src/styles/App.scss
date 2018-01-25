@@ -1,7 +1,10 @@
-@import "./base/base.scss";
+@import './abstracts/variables';
+@import './base/base';
+@import './base/animations';
 
-@import "./modules/board";
-@import "./modules/column";
-@import "./modules/card";
-@import "./modules/cardForm";
-@import "./modules/buttons";
+@import './modules/board';
+@import './modules/column';
+@import './modules/card';
+@import './modules/cardForm';
+@import './modules/button';
+@import './modules/login-page';
