@@ -1,0 +1,96 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the button component.
+// -----------------------------------------------------------------------------
+.btn {
+  &,
+  &:link,
+  &:visited {
+    text-decoration: none;
+    padding: 1.5rem 4rem;
+    display: inline-block;
+    border-radius: 100px;
+    transition: all 0.2s;
+    position: relative;
+    font-size: 1.5rem;
+    margin: 0 1rem;
+    min-width: 13.6rem;
+    // Changes for the button element
+    border: none;
+    cursor: pointer;
+  }
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+  }
+
+  &:hover::after {
+    transform: scaleX(1.4) scaleY(1.6);
+    opacity: 0;
+  }
+
+  &:active,
+  &:focus {
+    transform: translateY(-1px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+    outline: none;
+  }
+
+  &::after {
+    content: '';
+    display: inline-block;
+    transition: all 0.2s;
+    height: 100%;
+    width: 100%;
+    border-radius: 10rem;
+    position: absolute;
+    z-index: -1;
+    left: 0;
+    top: 0;
+  }
+
+  &--animated {
+    animation: moveFromBottom 0.5s 0.75s ease-out;
+    // This will use animations 0% before animations start
+    // Good for elements we want to be hidden before animation
+    animation-fill-mode: backwards;
+  }
+
+  &--login {
+    background: $primary-dark-green;
+  }
+
+  &--register {
+    background: $primary-light-green;
+  }
+}
+
+.float-button {
+  position: absolute;
+  height: 56px;
+  width: 56px;
+  z-index: 2;
+  right: 20px;
+  bottom: 20px;
+  background: #d43a2f;
+  color: white;
+  border-radius: 100%;
+  font-size: 34px;
+  text-align: center;
+  text-decoration: none;
+  line-height: 50px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+.button {
+  border-radius: 0.5rem;
+  position: absolute;
+  right: 0;
+  margin: 1rem;
+  font-size: 2rem;
+  height: 40px;
+  width: 40px;
+}

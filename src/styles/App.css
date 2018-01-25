@@ -5,16 +5,18 @@ html,
 body {
   height: 100%;
   margin: 0;
-  padding: 0; }
+  padding: 0;
+  /* // 1rem = 10px; 10px/16px = 62.5% */
+  font-size: 10px; }
 
 body {
-  background: #eee;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+  background: #000;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
 
 h1 {
   font-weight: 200;
   color: #3b414c;
-  font-size: 20px; }
+  font-size: 2rem; }
 
 ul {
   list-style-type: none;
@@ -25,42 +27,71 @@ ul {
   white-space: nowrap;
   height: 100%; }
 
+@keyframes moveInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-10rem); }
+  80% {
+    transform: translateX(1rem); }
+  100% {
+    transform: translate(0);
+    opacity: 1; } }
+
+@keyframes moveInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(10rem); }
+  80% {
+    transform: translateX(-1rem); }
+  100% {
+    transform: translate(0);
+    opacity: 1; } }
+
+@keyframes moveFromBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(3rem); }
+  100% {
+    transform: translate(0);
+    opacity: 1; } }
+
 .board {
   display: flex;
-  padding: 2rem; }
-  .board__header {
-    display: flex;
-    background: #6278aa;
+  padding: 2rem;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0.65) 59%, rgba(255, 255, 255, 0.65) 100%), url("/assets/joshua-newton-scaled.jpg") no-repeat center;
+  background-size: cover;
+  width: 100%;
+  height: 90%;
+  overflow: hidden; }
+
+.board__header {
+  display: flex;
+  background: #28b485;
+  color: aliceblue;
+  padding: 3rem;
+  height: 10%;
+  justify-content: space-between;
+  border-bottom: 2px solid #030d0a; }
+  .board__header__title {
+    margin: 0;
+    font-size: 3rem;
     color: aliceblue;
-    padding: 2rem;
-    justify-content: space-between; }
-    .board__header__title {
-      margin: 0;
-      font-size: 3rem;
-      color: aliceblue;
-      cursor: pointer;
-      text-decoration: none; }
-    .board__header__logout {
-      cursor: pointer; }
+    cursor: pointer;
+    text-decoration: none; }
+  .board__header__logout {
+    cursor: pointer; }
 
 .column {
   position: relative;
   display: inline-block;
   vertical-align: top;
   white-space: normal;
-  height: 100%;
   width: 20%;
-  padding: 0 20px;
-  overflow: auto; }
+  padding: 0 20px; }
 
-.column:not(:last-child):after {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 1px;
-  height: 99%;
-  background: linear-gradient(to bottom, #eee 0%, #ccc 50%, #eee 100%) fixed; }
+.column:not(:first-child):not(:last-child) {
+  border-left: 1px solid white;
+  border-right: 1px solid white; }
 
 .card {
   position: relative;
@@ -72,16 +103,17 @@ ul {
   overflow: auto;
   border: 1px solid #e5e5df;
   border-radius: 3px;
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25); }
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
+  font-size: 1.7rem; }
   .card__title {
     font-weight: bold;
     border-bottom: solid 5px transparent; }
   .card__title:before {
     display: inline-block;
     width: 1em;
-    content: "\25b8"; }
+    content: '\25b8'; }
   .card__title--is-open:before {
-    content: "\25be"; }
+    content: '\25be'; }
 
 .checklist__task:first-child {
   margin-top: 10px;
@@ -91,7 +123,7 @@ ul {
 .checklist__task--remove:after {
   display: inline-block;
   color: #d66;
-  content: "\2717";
+  content: '\2717';
   cursor: pointer; }
 
 .checklist--add-task {
@@ -132,7 +164,7 @@ ul {
 .card__edit a {
   text-decoration: none;
   color: #999;
-  font-size: 17px; }
+  font-size: 1.7rem; }
 
 .ReactModal__Overlay {
   z-index: 3; }
@@ -150,28 +182,28 @@ ul {
 
 .card.big {
   position: absolute;
-  width: 550px;
-  height: 300px;
+  width: 55rem;
+  height: 30rem;
   margin: auto;
-  padding: 15px;
+  padding: 1.5rem;
   top: 0;
   left: 0;
   bottom: 100px;
   right: 0;
   z-index: 4; }
 
-.card.big input[type="text"],
+.card.big input[type='text'],
 textarea {
   width: 100%;
   margin: 3px 0;
-  font-size: 13px;
+  font-size: 1.3rem;
   border: none; }
 
-.card.big input[type="text"] {
-  font-size: 20px;
+.card.big input[type='text'] {
+  font-size: 2rem;
   font-weight: bold; }
 
-.card.big input[type="text"]:focus,
+.card.big input[type='text']:focus,
 .card.big textarea:focus {
   outline: dashed thin #999;
   outline-offset: 2px; }
@@ -180,15 +212,63 @@ textarea {
   margin: 3px 0 7px 3px;
   color: #a7a7a7;
   display: inline-block;
-  width: 60px; }
+  width: 6rem; }
 
 .actions {
   margin-top: 10px;
   text-align: right; }
 
 .card.big button {
-  font-size: 14px;
-  padding: 8px; }
+  font-size: 1.4rem;
+  padding: 8rem; }
+
+.btn, .btn:link, .btn:visited {
+  text-decoration: none;
+  padding: 1.5rem 4rem;
+  display: inline-block;
+  border-radius: 100px;
+  transition: all 0.2s;
+  position: relative;
+  font-size: 1.5rem;
+  margin: 0 1rem;
+  min-width: 13.6rem;
+  border: none;
+  cursor: pointer; }
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2); }
+
+.btn:hover::after {
+  transform: scaleX(1.4) scaleY(1.6);
+  opacity: 0; }
+
+.btn:active, .btn:focus {
+  transform: translateY(-1px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+  outline: none; }
+
+.btn::after {
+  content: '';
+  display: inline-block;
+  transition: all 0.2s;
+  height: 100%;
+  width: 100%;
+  border-radius: 10rem;
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  top: 0; }
+
+.btn--animated {
+  animation: moveFromBottom 0.5s 0.75s ease-out;
+  animation-fill-mode: backwards; }
+
+.btn--login {
+  background: #28b485; }
+
+.btn--register {
+  background: #7ed56f; }
 
 .float-button {
   position: absolute;
@@ -217,3 +297,34 @@ textarea {
   font-size: 2rem;
   height: 40px;
   width: 40px; }
+
+.login-page {
+  height: 100vh;
+  border: 1px solid black;
+  background: #000;
+  background: linear-gradient(to bottom, transparent 0%, transparent 59%, rgba(0, 0, 0, 0.65) 100%), url("/assets/joshua-newton-scaled.jpg") no-repeat center;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative; }
+  .login-page h1 {
+    font-size: 8rem;
+    font-weight: 400;
+    backface-visibility: hidden;
+    color: aliceblue;
+    display: block;
+    margin: 0 0 4rem 0;
+    letter-spacing: 3.5rem;
+    animation: moveInLeft 1s 1s ease-out;
+    animation-fill-mode: backwards; }
+  .login-page h2 {
+    font-size: 2rem;
+    color: aliceblue;
+    display: block;
+    margin: 0.5rem 0 4rem 0;
+    font-weight: 700;
+    letter-spacing: 1.75rem;
+    animation: moveInRight 1s 1s ease-out;
+    animation-fill-mode: backwards; }

@@ -28,15 +28,15 @@ export class Board extends Component {
   render() {
     return (
       <div className="board">
-        <button className="float-button" onClick={this.handleModalOpen}>
-          +
-        </button>
         <Column
           id="todo"
           title="To Do"
           cardCallbacks={this.props.cardCallbacks}
           cards={this.props.cards.filter(card => card.status === 'todo')}
         />
+        <button className="float-button" onClick={this.handleModalOpen}>
+          +
+        </button>
         <Column
           id="in-progress"
           title="In Progress"

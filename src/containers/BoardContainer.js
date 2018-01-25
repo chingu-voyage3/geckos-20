@@ -90,7 +90,7 @@ class BoardContainer extends React.Component {
   // <button onClick={BoardContainer.dbPush}>Add data</button>
   render() {
     return (
-      <div>
+      <React.Fragment>
         <Board
           cards={this.props.cards}
           cardCallbacks={{
@@ -99,7 +99,7 @@ class BoardContainer extends React.Component {
             persistCardDrag: this.persistCardDrag
           }}
         />
-      </div>
+      </React.Fragment>
     );
   }
 }
