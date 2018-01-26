@@ -8,36 +8,34 @@ const startCardsFetch = cards => ({
   cards
 });
 
-export const fetchCards = () => (dispatch) => {
-  database
-    .ref('cards')
-    .once('value')
-    .then((snapshot) => {
-      const cards = [];
-      snapshot.forEach((childSnapshot) => {
-        // console.log(childSnapshot.val());
-        let taskArr;
-        if (childSnapshot.val().tasks) {
-          // Take Object of tasks and spread it to array for each card so it can be mapped and filtered
-          taskArr = Object.keys(childSnapshot.val().tasks).map(key => ({
-            ...childSnapshot.val().tasks[key]
-          }));
-        }
-        // console.log(taskArr);
-        cards.push({
-          ...childSnapshot.val(),
-          tasks: taskArr,
-          id: childSnapshot.key
-        });
+export const fetchCards = () => dispatch => database
+  .ref('cards')
+  .once('value')
+  .then((snapshot) => {
+    const cards = [];
+    snapshot.forEach((childSnapshot) => {
+      // console.log(childSnapshot.val());
+      let taskArr;
+      if (childSnapshot.val().tasks) {
+        // Take Object of tasks and spread it to array for each card so it can be mapped and filtered
+        taskArr = Object.keys(childSnapshot.val().tasks).map(key => ({
+          ...childSnapshot.val().tasks[key]
+        }));
+      }
+      // console.log(taskArr);
+      cards.push({
+        ...childSnapshot.val(),
+        tasks: taskArr,
+        id: childSnapshot.key
       });
-      console.log(cards);
-      dispatch(startCardsFetch(cards));
-    })
-    .catch((error) => {
-      // Uh-oh, an error occurred!
-      console.warn('Error ocurred :( ', error);
     });
-};
+    console.log(cards);
+    dispatch(startCardsFetch(cards));
+  })
+  .catch((error) => {
+    // Uh-oh, an error occurred!
+    console.warn('Error ocurred :( ', error);
+  });
 
 const startAddCard = cards => ({
   type: types.ADD_CARD,

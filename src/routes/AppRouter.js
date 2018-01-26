@@ -6,6 +6,7 @@ import App from '../App';
 import NewCard from '../components/NewCard';
 import EditCard from '../components/EditCard';
 import LoginPage from '../components/LoginPage';
+import PrivateRoute from './PrivateRoute';
 
 export const history = createHistory();
 
@@ -13,10 +14,10 @@ export default () => (
   <Router history={history}>
     <Switch>
       <Route exact path="/" component={LoginPage} />
-      <Route path="/dashboard" component={App} />
-      <Route path="/dashboard/new" component={NewCard} />
-      <Route path="/dashboard/edit/:card_id" component={EditCard} />
-      <Route component={App} />
+      <PrivateRoute path="/dashboard" component={App} />
+      <PrivateRoute path="/dashboard/new" component={NewCard} />
+      <PrivateRoute path="/dashboard/edit/:card_id" component={EditCard} />
+      <Route component={LoginPage} />
     </Switch>
   </Router>
 );
