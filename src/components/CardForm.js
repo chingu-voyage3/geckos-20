@@ -71,14 +71,19 @@ class CardForm extends Component {
               />
             </label>
             <div className="actions">
-              <button type="submit">{this.props.buttonLabel}</button>
+              <button className="btn btn--edit" type="submit">
+                {this.props.buttonLabel}
+              </button>
+              {this.props.removeCard ? (
+                <button
+                  className="btn btn--remove"
+                  onClick={() => this.props.removeCard(id)}
+                >
+                  Remove Card
+                </button>
+              ) : null}
             </div>
           </form>
-          {this.props.removeCard ? (
-            <button onClick={() => this.props.removeCard(id)}>
-              Remove Card
-            </button>
-          ) : null}
         </div>
       </div>
     );
