@@ -60,8 +60,14 @@
     background: $primary-dark-green;
   }
 
-  &--register {
-    background: $primary-light-green;
+  &--remove {
+    color: aliceblue;
+    background: $warrning;
+  }
+
+  &--edit {
+    color: aliceblue;
+    background: $tertiary-light;
   }
 }
 

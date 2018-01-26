@@ -80,6 +80,9 @@ ul {
     cursor: pointer;
     text-decoration: none; }
   .board__header__logout {
+    border: none;
+    background: none;
+    color: aliceblue;
     cursor: pointer;
     font-size: 1.6rem; }
 
@@ -88,7 +91,7 @@ ul {
   display: inline-block;
   vertical-align: top;
   white-space: normal;
-  width: 20%;
+  width: 25%;
   padding: 0 20px; }
 
 .column:not(:first-child):not(:last-child) {
@@ -222,7 +225,7 @@ textarea {
 
 .card.big button {
   font-size: 1.4rem;
-  padding: 8rem; }
+  padding: 2rem; }
 
 .btn, .btn:link, .btn:visited {
   text-decoration: none;
@@ -269,8 +272,13 @@ textarea {
 .btn--login {
   background: #28b485; }
 
-.btn--register {
-  background: #7ed56f; }
+.btn--remove {
+  color: aliceblue;
+  background: #e50050; }
+
+.btn--edit {
+  color: aliceblue;
+  background: #2998ff; }
 
 .float-button {
   position: absolute;
