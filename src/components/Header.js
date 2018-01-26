@@ -5,7 +5,7 @@ import { startLogout } from '../store/actions/authActions';
 
 const Header = ({ onStartLogout }) => (
   <div className="board__header">
-    <Link to="/dashboard" className="board__header__title">
+    <Link to="/" className="board__header__title">
       Just in Time
     </Link>
     <button onClick={onStartLogout} className="board__header__logout">
